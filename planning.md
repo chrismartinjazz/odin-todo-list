@@ -2,19 +2,19 @@
 
 ## Spec
 
-- Dynamically create Todo objects (factories or constructors / classes)
-- Properties must include:
-  - title
-  - description
-  - dueDate
-  - priority
-- Brainstorm additional properties. E.g. notes, checklist, priority level.
-- Projects - lists of todos.
-  - Users can allocate a project on creation of Todo.
-  - New todo goes into a default project (Inbox) if not allocated an existing project
-  - Users can create new projects
-  - Users can delete projects (todos all go back into Inbox)
-  - A todo can have only one project.
+- DONE Dynamically create Todo objects (factories or constructors / classes)
+- DONE Properties must include:
+  - DONE title
+  - DONE description
+  - DONE dueDate
+  - DONE priority
+- DONE Brainstorm additional properties. E.g. notes, checklist, priority level.
+- DONE Projects - lists of todos.
+  - DONE Users can allocate a project on creation of Todo.
+  - DONE New todo goes into a default project (Inbox) if not allocated an existing project
+  - DONE Users can create new projects
+  - DONE Users can delete projects (todos all go back into Inbox)
+  - DONE A todo can have only one project.
 - Application and DOM are separate.
 - Use npm date-fns to manipulate dates and times.
 - use [localStorage] <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API> to store data on user's computer.
