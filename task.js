@@ -1,5 +1,5 @@
 export default class Task {
-  constructor(id, title, projectId = 1) {
+  constructor(id, projectId = 1, title) {
     this.id = id;
     this.projectId = projectId;
     this.title = title;
@@ -12,11 +12,12 @@ export default class Task {
   }
 
   update(properties) {
+    this.projectId = properties["projectId"] || this.projectId;
     this.title = properties["title"] || this.title;
     this.description = properties["description"] || this.description;
-    this.project = properties["project"] || this.project;
-    this.dueDate = properties["dueDate"] || this.dueDate;
     this.priority = properties["priority"] || this.priority;
+    this.dueDate = properties["dueDate"] || this.dueDate;
+    this.completed = properties["completed"] || this.completed;
     return this;
   }
 
@@ -53,5 +54,9 @@ export default class Task {
 
   toggleSubTaskComplete(id) {
     return this.findSubTask(id).completed = !this.findSubTask(id).completed;
+  }
+
+  completeAllSubTasks() {
+    return this.subTasks.map(task => task.completed = true);
   }
 }

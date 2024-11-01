@@ -8,7 +8,7 @@ export default class TaskList {
     this.projects = new ProjectList()
   }
 
-  create(projectId = 1, title = '') {
+  create(title = '', projectId = 1) {
     const task = new Task(this.nextID, projectId, title);
     this.tasks.push(task);
     this.nextID++;
@@ -27,12 +27,26 @@ export default class TaskList {
     return true;
   }
 
+  move(id, projectId) {
+    return this.read(id).update({ projectId: projectId });
+  }
+
   projectTasks(projectId) {
     return this.tasks.filter(task => task.projectId === projectId);
   }
 
+  projectComplete(projectId) {
+    if (projectId == 1) return false;
+    if (this.projects.read(projectId).complete) return false;
+
+    this.projectTasks(projectId).map(task => task.update({ completed: true }));
+    this.projects.toggleComplete(projectId);
+    return true;
+  }
+
   projectDelete(projectId) {
-    this.projectTasks().map(task => task.projectId = 1);
+    this.projectTasks(projectId).map(task => task.projectId = 1);
     return this.projects.delete(projectId);
   }
+
 }

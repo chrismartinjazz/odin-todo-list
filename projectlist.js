@@ -19,11 +19,15 @@ export default class ProjectList {
   }
 
   update(id, title) {
+    if (id == 1) return false;
+
     this.read(id).title = title;
     return this.read(id);
   }
 
   delete(id) {
+    if (id == 1) return false;
+
     const index = this.projects.findIndex(project => project.id === id);
     if (index === -1) return false;
 
@@ -32,6 +36,8 @@ export default class ProjectList {
   }
 
   toggleComplete(id) {
+    if (id == 1) return false;
+
     return this.read(id).completed = !this.read(id).completed;
   }
 
