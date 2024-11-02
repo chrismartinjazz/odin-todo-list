@@ -1,8 +1,11 @@
 import Application from "./application.js";
 import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
-import { displayProjects } from "./dom.js";
+import Display from "./display.js";
 
-// deleteMyApp(); // For testing, delete localStorage
+// TESTING - reset localStorage on refresh
+deleteMyApp();
+// TESTING
+
 let myApp;
 
 if (!localStorage.getItem("myApp")) {
@@ -12,8 +15,12 @@ if (!localStorage.getItem("myApp")) {
   myApp = getMyApp();
 }
 
-displayProjects(myApp.projects.projectList);
-console.log(myApp.projects.projectList);
+// TESTING - seed myApp
+seedMyApp();
+// TESTING
+
+let display = new Display(myApp);
+display.displayProjects();
 
 // Testing!
 /*
@@ -88,3 +95,10 @@ console.log(myApp.projects.projectTitles(), ": inbox");
 // myApp = getMyApp(string);
 // console.log(myApp);
 */
+
+function seedMyApp() {
+  myApp.projects.create("home");
+  myApp.tasks.create("wash dishes", 2);
+  myApp.tasks.create("put away clothes", 2);
+  myApp.tasks.create("make the app");
+}

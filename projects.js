@@ -7,6 +7,7 @@ export default class Projects {
   }
 
   create(title) {
+    if (title == "") return false;
     if (this.projectTitles().includes(title)) return false;
 
     const newProject = { id: this.nextID, title: title, completed: false }

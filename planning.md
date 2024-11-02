@@ -24,7 +24,7 @@
 
 UI is able to:
 
-- View all projects (Home?)
+- DONE View all projects (Home?)
 - View all todos in each project (title, duedate, priority affects color?)
 - Expand a single todo to see/edit its details (in a modal)
 - Delete a todo

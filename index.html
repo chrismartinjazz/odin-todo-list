@@ -11,15 +11,30 @@
 <body>
   <div class="content">
     <h2 class="projects__heading">Projects</h2>
-    <button class="projects__button"">+</button>
-    <div class=" projects__list">
+    <button class="btn projects__new-project-button">+</button>
+    <div class="projects__list">
 
-  </div>
+    </div>
+    <h2 class="tasks__heading">Tasks</h2>
+    <div class="tasks__list">
 
-  </div>
-  <div class="tasks">
+    </div>
+    <button class="btn tasks__new-task-button">+</button>
+    <dialog class="project-dialog">
+      <form action="#" method="get" class="project-dialog__form">
+        <fieldset>
+          <div class="project-dialog__item">
+            <label for="newProjectTitle">Project Title:</label>
+            <input type="text" id="newProjectTitle" name="title">
+          </div>
+        </fieldset>
+        <div class="project-dialog__buttons">
+          <button type="submit" class="btn project-dialog__submit">Add</button>
+          <button class="btn project-dialog__close">Cancel</button>
+        </div>
+      </form>
+    </dialog>
 
-  </div>
   </div>
 
   <script type="module" src="main.js"></script>
