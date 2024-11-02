@@ -1,23 +1,18 @@
 export default class Task {
-  constructor(id, projectId = 1, title) {
-    this.id = id;
-    this.projectId = projectId;
-    this.title = title;
-    this.description = null;
-    this.priority = null;
-    this.dueDate = null;
-    this.completed = false;
-    this.subTasks = [];
-    this.nextID = 1;
+  constructor(properties = {}) {
+    this.update(properties);
   }
 
   update(properties) {
-    this.projectId = properties["projectId"] || this.projectId;
-    this.title = properties["title"] || this.title;
-    this.description = properties["description"] || this.description;
-    this.priority = properties["priority"] || this.priority;
-    this.dueDate = properties["dueDate"] || this.dueDate;
-    this.completed = properties["completed"] || this.completed;
+    this.id = properties["id"] || this.id;
+    this.projectId = properties["projectId"] || this.projectId || 1;
+    this.title = properties["title"] || this.title || null;
+    this.description = properties["description"] || this.description || null;
+    this.priority = properties["priority"] || this.priority || null;
+    this.dueDate = properties["dueDate"] || this.dueDate || null;
+    this.completed = properties["completed"] || this.completed || false;
+    this.subTasks = properties["subTasks"] || this.subTasks || [];
+    this.nextID = properties["nextID"] || this.nextID || 1;
     return this;
   }
 

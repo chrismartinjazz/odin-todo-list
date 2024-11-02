@@ -1,102 +1,116 @@
-import TaskList from "./tasklist.js";
+import Application from "./application.js";
+import Tasks from "./tasks.js";
+import Projects from "./projects.js";
+import Task from "./task.js";
 
-function storeMyTasks(myTasks) {
-  localStorage.setItem("myTasks", JSON.stringify(myTasks));
+function storeMyApp(myApp) {
+  localStorage.setItem("myApp", JSON.stringify(myApp));
 }
 
-function getMyTasks() {
-  return JSON.parse(localStorage.getItem("myTasks"));
+function getMyApp() {
+  let newApp = JSON.parse(localStorage.getItem("myApp"));
+
+  // Convert the list of tasks to Task objects.
+  const newTaskList = [];
+  for (let task in newApp.tasks.taskList) {
+    const newTask = new Task(newApp.tasks.taskList[task]);
+    newTaskList.push(newTask);
+  }
+
+  // Copy all properties to new object.
+  Object.assign(newApp.tasks.taskList, newTaskList);
+  newApp.tasks = new Tasks(newApp.tasks);
+  newApp.projects = new Projects(newApp.projects);
+  newApp = new Application(newApp);
+
+  return newApp;
 }
 
-function deleteMyTasks() {
-  return localStorage.removeItem("myTasks");
+function deleteMyApp() {
+  return localStorage.removeItem("myApp");
 }
 
-deleteMyTasks(); // For testing, delete localStorage
-let myTasks;
+// deleteMyApp(); // For testing, delete localStorage
+let myApp;
 
-if (!localStorage.getItem("myTasks")) {
-  myTasks = new TaskList();
-  storeMyTasks(myTasks);
+if (!localStorage.getItem("myApp")) {
+  myApp = new Application();
+  storeMyApp(myApp);
 } else {
-  myTasks = getMyTasks();
+  myApp = getMyApp();
 }
-
-console.log(myTasks);
-myTasks = getMyTasks(); // For testing.
-console.log(myTasks);
-
-
-// Test Local Storage
-// myTasks.create('test task 1');
-// myTasks.create('test task 2');
-
 
 // Testing!
 
 /*
 // Test the creation and manipulation of tasks
 // Create a task with default project
-myTasks.create("Test task 1");
-myTasks.create("Test task 2");
-myTasks.create("Test task 3");
+myApp.tasks.create("Test task 1");
+myApp.tasks.create("Test task 2");
+myApp.tasks.create("Test task 3");
 // Update a task
-myTasks.read(1).update({ title: "Updated title", description: "Here's a description", priority: 1, dueDate: "2024-11-10" });
+myApp.tasks.read(1).update({ title: "Updated title", description: "Here's a description", priority: 1, dueDate: "2024-11-10" });
 // Add a subTask
-myTasks.read(1).createSubTask("subtask 1");
-myTasks.read(1).createSubTask("subtask 2");
-myTasks.read(1).createSubTask("subtask 3");
+myApp.tasks.read(1).createSubTask("subtask 1");
+myApp.tasks.read(1).createSubTask("subtask 2");
+myApp.tasks.read(1).createSubTask("subtask 3");
 // Update a subTask
-myTasks.read(1).updateSubTask(1, "updated title");
-myTasks.read(1).toggleSubTaskComplete(2);
+myApp.tasks.read(1).updateSubTask(1, "updated title");
+myApp.tasks.read(1).toggleSubTaskComplete(2);
 // Delete a subTask
-myTasks.read(1).deleteSubTask(3);
+myApp.tasks.read(1).deleteSubTask(3);
 // read a task by Id
-console.log(myTasks.read(1).title);
+console.log(myApp.tasks.read(1).title, ": Updated title");
 // read a subTask by Id
-console.log(myTasks.read(1).findSubTask(2).title);
+console.log(myApp.tasks.read(1).findSubTask(2).title, ": subtask 2");
 // Delete a task
-myTasks.delete(1);
-console.log(myTasks);
+myApp.tasks.delete(1);
+console.log(myApp.tasks, ": 2 tasks in Array");
 */
 
 /*
 // Test the creation and manipulation of projects
 // Create a project
-myTasks.projects.create("home");
+console.log(myApp.projects.create("home").title, ": home");;
+
 // Update a project's title
-myTasks.projects.update(2, "homies");
+myApp.projects.update(2, "homies");
 // Retrieve a project by id
-console.log(myTasks.projects.read(2));
+console.log(myApp.projects.read(2).title, ": homies");
 // Create a task with a default project
-myTasks.create("default project 1");
-myTasks.create("default project 2");
-myTasks.create("default project 3");
+myApp.tasks.create("default project 1");
+myApp.tasks.create("default project 2");
+myApp.tasks.create("default project 3");
 // Create a task with another project
-myTasks.create("specific project 1", 2)
-myTasks.create("specific project 2", 2)
-myTasks.create("specific project 3", 2)
+myApp.tasks.create("specific project 1", 2)
+console.log(myApp.tasks.read(4).projectId, "2")
+console.log(myApp.tasks.read(4).title, ": specific project 1")
+myApp.tasks.create("specific project 2", 2)
+myApp.tasks.create("specific project 3", 2)
 // Retrieve the tasks from a project by projectId
-console.log(myTasks.projectTasks(1));
+console.log(myApp.tasks.tasksInProject(1), ": 3 Tasks");
 // Move a task to another project
-console.log(myTasks.move(1, 2));
-console.log(myTasks.projectTasks(1));
+console.log(myApp.tasks.move(1, 2).projectId, ': 2');
+console.log(myApp.tasks.tasksInProject(1), ': 2 tasks');
 // Complete the first task of each project
-myTasks.projectTasks(1)[0].toggleComplete
-myTasks.projectTasks(2)[0].toggleComplete
+myApp.tasks.read(1).toggleComplete();
+console.log(myApp.tasks.read(1).completed, ": true");
 // Mark a project as complete (completes all tasks)
-console.log(myTasks.projectComplete(1)); // false - cannot complete Inbox
-myTasks.projectComplete(2);
-console.log(myTasks.projectTasks(2));
-console.log(myTasks.projects.read(2));
+console.log(myApp.completeProject(1), ": false - cannot complete Inbox");
+myApp.completeProject(2);
+console.log(myApp.tasks.tasksInProject(2).map(task => task.completed), ": 4 tasks, all completed (true)");
+console.log(myApp.projects.read(2).title, ": homies - project still exists");
 // Delete a project - moves all tasks to the Inbox
-console.log(myTasks.projects.projectTitles());
-console.log(myTasks.projectDelete(1)); // false - cannot delete inbox
-myTasks.projectDelete(2);
-console.log(myTasks.projects.projectTitles());
+console.log(myApp.projects.projectTitles(), ": 'inbox', 'homies'");
+console.log(myApp.deleteProject(1), ": false - cannot delete inbox");
+myApp.deleteProject(2);
+console.log(myApp.projects.projectTitles(), ": inbox");
+// console.table(myApp);
 */
 
 
-
-// console.table(myTasks);
-
+// Test the conversion function
+// Convert myApp to a JSON string and parse back into an object.
+// const string = JSON.stringify(myApp);
+// myApp = getMyApp(string);
+// console.log(myApp);

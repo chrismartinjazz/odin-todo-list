@@ -1,7 +1,7 @@
-export default class ProjectList {
-  constructor() {
-    this.nextID = 1;
-    this.projects = [];
+export default class Projects {
+  constructor(properties = {}) {
+    this.nextID = properties["nextID"] || 1;
+    this.projectList = properties["projectList"] || [];
     this.create("inbox");
   }
 
@@ -10,12 +10,12 @@ export default class ProjectList {
 
     const newProject = { id: this.nextID, title: title, completed: false }
     this.nextID++;
-    this.projects.push(newProject);
+    this.projectList.push(newProject);
     return newProject;
   }
 
   read(id) {
-    return this.projects.filter(project => { return project.id === id })[0] || false;
+    return this.projectList.filter(project => { return project.id === id })[0] || false;
   }
 
   update(id, title) {
@@ -28,10 +28,10 @@ export default class ProjectList {
   delete(id) {
     if (id == 1) return false;
 
-    const index = this.projects.findIndex(project => project.id === id);
+    const index = this.projectList.findIndex(project => project.id === id);
     if (index === -1) return false;
 
-    this.projects.splice(index, 1);
+    this.projectList.splice(index, 1);
     return true;
   }
 
@@ -43,7 +43,7 @@ export default class ProjectList {
 
   projectTitles() {
     const titleList = [];
-    this.projects.map(project => {
+    this.projectList.map(project => {
       if (!titleList.includes(project.title)) {
         titleList.push(project.title)
       }
