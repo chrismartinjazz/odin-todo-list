@@ -1,7 +1,8 @@
 import Application from "./application.js";
 import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
+import { displayProjects } from "./dom.js";
 
-deleteMyApp(); // For testing, delete localStorage
+// deleteMyApp(); // For testing, delete localStorage
 let myApp;
 
 if (!localStorage.getItem("myApp")) {
@@ -11,8 +12,11 @@ if (!localStorage.getItem("myApp")) {
   myApp = getMyApp();
 }
 
-// Testing!
+displayProjects(myApp.projects.projectList);
+console.log(myApp.projects.projectList);
 
+// Testing!
+/*
 // Test the creation and manipulation of tasks
 // Create a task with default project
 myApp.tasks.create("Test task 1");
@@ -37,6 +41,7 @@ console.log(myApp.tasks.read(1).findSubTask(2).title, ": subtask 2");
 // Delete a task
 myApp.tasks.delete(1);
 console.log(myApp.tasks, ": 2 tasks in Array");
+*/
 
 /*
 // Test the creation and manipulation of projects
