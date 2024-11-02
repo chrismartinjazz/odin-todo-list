@@ -10,16 +10,19 @@
 
 <body>
   <div class="content">
+
     <h2 class="projects__heading">Projects</h2>
     <button class="btn projects__new-project-button">+</button>
     <div class="projects__list">
-
+      <!-- Populated by displayProjects -->
     </div>
+
     <h2 class="tasks__heading">Tasks</h2>
     <div class="tasks__list">
-
+      <!-- Populated by displayTasks -->
     </div>
     <button class="btn tasks__new-task-button">+</button>
+
     <dialog class="project-dialog">
       <form action="#" method="get" class="project-dialog__form">
         <fieldset>
@@ -31,6 +34,21 @@
         <div class="project-dialog__buttons">
           <button type="submit" class="btn project-dialog__submit">Add</button>
           <button class="btn project-dialog__close">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="task-dialog">
+      <form action="#" class="task-dialog__form" method="get">
+        <fieldset>
+          <div class="task-dialog__item">
+            <label for="newTaskTitle">Task Title:</label>
+            <input type="text" id="newTaskTitle" name="title">
+          </div>
+        </fieldset>
+        <div class="task-dialog__buttons">
+          <button class="btn task-dialog__submit" type="submit">Add</button>
+          <button class="btn task-dialog__close">Cancel</button>
         </div>
       </form>
     </dialog>

@@ -7,6 +7,8 @@ export default class Tasks {
   }
 
   create(title = '', projectId = 1) {
+    if (title == "") return false;
+
     const task = new Task({ id: this.nextID, projectId: projectId, title: title });
     this.taskList.push(task);
     this.nextID++;

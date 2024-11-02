@@ -21,6 +21,7 @@ seedMyApp();
 
 let display = new Display(myApp);
 display.displayProjects();
+display.displayTasks(1);
 
 // Testing!
 /*
