@@ -1,36 +1,7 @@
 import Application from "./application.js";
-import Tasks from "./tasks.js";
-import Projects from "./projects.js";
-import Task from "./task.js";
+import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
 
-function storeMyApp(myApp) {
-  localStorage.setItem("myApp", JSON.stringify(myApp));
-}
-
-function getMyApp() {
-  let newApp = JSON.parse(localStorage.getItem("myApp"));
-
-  // Convert the list of tasks to Task objects.
-  const newTaskList = [];
-  for (let task in newApp.tasks.taskList) {
-    const newTask = new Task(newApp.tasks.taskList[task]);
-    newTaskList.push(newTask);
-  }
-
-  // Copy all properties to new object.
-  Object.assign(newApp.tasks.taskList, newTaskList);
-  newApp.tasks = new Tasks(newApp.tasks);
-  newApp.projects = new Projects(newApp.projects);
-  newApp = new Application(newApp);
-
-  return newApp;
-}
-
-function deleteMyApp() {
-  return localStorage.removeItem("myApp");
-}
-
-// deleteMyApp(); // For testing, delete localStorage
+deleteMyApp(); // For testing, delete localStorage
 let myApp;
 
 if (!localStorage.getItem("myApp")) {
@@ -42,10 +13,10 @@ if (!localStorage.getItem("myApp")) {
 
 // Testing!
 
-/*
 // Test the creation and manipulation of tasks
 // Create a task with default project
 myApp.tasks.create("Test task 1");
+console.log(myApp);
 myApp.tasks.create("Test task 2");
 myApp.tasks.create("Test task 3");
 // Update a task
@@ -66,13 +37,11 @@ console.log(myApp.tasks.read(1).findSubTask(2).title, ": subtask 2");
 // Delete a task
 myApp.tasks.delete(1);
 console.log(myApp.tasks, ": 2 tasks in Array");
-*/
 
 /*
 // Test the creation and manipulation of projects
 // Create a project
 console.log(myApp.projects.create("home").title, ": home");;
-
 // Update a project's title
 myApp.projects.update(2, "homies");
 // Retrieve a project by id
@@ -106,7 +75,6 @@ console.log(myApp.deleteProject(1), ": false - cannot delete inbox");
 myApp.deleteProject(2);
 console.log(myApp.projects.projectTitles(), ": inbox");
 // console.table(myApp);
-*/
 
 
 // Test the conversion function
@@ -114,3 +82,4 @@ console.log(myApp.projects.projectTitles(), ": inbox");
 // const string = JSON.stringify(myApp);
 // myApp = getMyApp(string);
 // console.log(myApp);
+*/

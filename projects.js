@@ -3,6 +3,7 @@ export default class Projects {
     this.nextID = properties["nextID"] || 1;
     this.projectList = properties["projectList"] || [];
     this.create("inbox");
+    document.dispatchEvent(new Event('stateChanged'));
   }
 
   create(title) {
@@ -11,6 +12,7 @@ export default class Projects {
     const newProject = { id: this.nextID, title: title, completed: false }
     this.nextID++;
     this.projectList.push(newProject);
+    document.dispatchEvent(new Event('stateChanged'));
     return newProject;
   }
 
@@ -22,6 +24,7 @@ export default class Projects {
     if (id == 1) return false;
 
     this.read(id).title = title;
+    document.dispatchEvent(new Event('stateChanged'));
     return this.read(id);
   }
 
@@ -32,13 +35,15 @@ export default class Projects {
     if (index === -1) return false;
 
     this.projectList.splice(index, 1);
+    document.dispatchEvent(new Event('stateChanged'));
     return true;
   }
 
   toggleComplete(id) {
     if (id == 1) return false;
-
-    return this.read(id).completed = !this.read(id).completed;
+    const returnValue = (this.read(id).completed = !this.read(id).completed);
+    document.dispatchEvent(new Event('stateChanged'));
+    return returnValue;
   }
 
   projectTitles() {

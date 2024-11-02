@@ -10,6 +10,7 @@ export default class Tasks {
     const task = new Task({ id: this.nextID, projectId: projectId, title: title });
     this.taskList.push(task);
     this.nextID++;
+    document.dispatchEvent(new Event('stateChanged'));
     return task;
   }
 
@@ -22,11 +23,14 @@ export default class Tasks {
     if (index === -1) return false;
 
     this.taskList.splice(index, 1);
+    document.dispatchEvent(new Event('stateChanged'));
     return true;
   }
 
   move(id, projectId) {
-    return this.read(id).update({ projectId: projectId });
+    const returnValue = this.read(id).update({ projectId: projectId });
+    document.dispatchEvent(new Event('stateChanged'));
+    return returnValue;
   }
 
   tasksInProject(projectId) {

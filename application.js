@@ -1,10 +1,13 @@
 import Tasks from "./tasks.js"
 import Projects from "./projects.js"
+import { storeMyApp } from "./storage.js";
 
 export default class Application {
   constructor(properties = {}) {
     this.tasks = properties["tasks"] || new Tasks();
     this.projects = properties["projects"] || new Projects();
+
+    document.addEventListener('stateChanged', () => storeMyApp(this));
   }
 
   completeProject(projectId) {

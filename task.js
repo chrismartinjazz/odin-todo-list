@@ -13,11 +13,14 @@ export default class Task {
     this.completed = properties["completed"] || this.completed || false;
     this.subTasks = properties["subTasks"] || this.subTasks || [];
     this.nextID = properties["nextID"] || this.nextID || 1;
+    document.dispatchEvent(new Event('stateChanged'));
     return this;
   }
 
   toggleComplete() {
-    this.completed = !this.completed;
+    const returnValue = (this.completed = !this.completed);
+    document.dispatchEvent(new Event('stateChanged'));
+    return returnValue;
   }
 
   createSubTask(title) {
@@ -28,11 +31,14 @@ export default class Task {
     };
     this.nextID++;
     this.subTasks.push(subTask);
+    document.dispatchEvent(new Event('stateChanged'));
     return this;
   }
 
   updateSubTask(id, title) {
-    this.findSubTask(id).title = title;
+    const returnValue = this.findSubTask(id).title = title;
+    document.dispatchEvent(new Event('stateChanged'));
+    return returnValue;
   }
 
   deleteSubTask(id) {
@@ -40,6 +46,7 @@ export default class Task {
     if (index === -1) return false;
 
     this.subTasks.splice(index, 1);
+    document.dispatchEvent(new Event('stateChanged'));
     return true;
   }
 
@@ -48,10 +55,14 @@ export default class Task {
   }
 
   toggleSubTaskComplete(id) {
-    return this.findSubTask(id).completed = !this.findSubTask(id).completed;
+    const returnValue = (this.findSubTask(id).completed = !this.findSubTask(id).completed);
+    document.dispatchEvent(new Event('stateChanged'));
+    return returnValue;
   }
 
   completeAllSubTasks() {
-    return this.subTasks.map(task => task.completed = true);
+    const returnValue = this.subTasks.map(task => task.completed = true);
+    document.dispatchEvent(new Event('stateChanged'));
+    return returnValue;
   }
 }
