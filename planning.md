@@ -27,6 +27,7 @@ UI is able to:
 - View all todos in each project
   - DONE title
   - duedate
+  - subtask status (e.g. 1/4 complete)
   - priority affects color?
 - DONE Expand a single todo to see/edit its details (in a modal)
 - DONE Delete a todo
@@ -43,10 +44,11 @@ I have already created something inspired by Todoist, so I will look instead at 
 
 ### UI
 
-- DONE (but add more fields) Build modal to add a todo.
+- DONE Build modal to add a todo.
   - Add due date
 - Build modal to edit a todo
   - DONE Edit title
+  - Edit project (drop down list?)
   - Add due date
   - Add the other stuff
   - Add subtasks
@@ -54,11 +56,10 @@ I have already created something inspired by Todoist, so I will look instead at 
   - DONE Edit
   - DONE Mark complete
   - DONE Delete
-
-- Build project interaction when click buttons next to its big title:
-  - mark complete
-  - edit
-  - delete
+- Build project interaction when click buttons next to its title:
+  - DONE mark complete
+  - DONE edit
+  - DONE delete
 
 - Build about page
 

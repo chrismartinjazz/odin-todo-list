@@ -4,6 +4,6 @@
   box-sizing: border-box;
 }
 
-.completed>button {
+.completed {
   text-decoration: line-through;
 }
