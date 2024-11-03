@@ -20,14 +20,16 @@
 - DONE use [localStorage] <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API> to store data on user's computer.
   - DONE Data may not be persistent, so handle not finding data.
   - DONE Note that this uses JSON.
-- Note - not clear if needs to be served through JavaScript like previous project, or if should be html templates.
 
 UI is able to:
 
 - DONE View all projects (Home?)
-- View all todos in each project (title, duedate, priority affects color?)
-- Expand a single todo to see/edit its details (in a modal)
-- Delete a todo
+- View all todos in each project
+  - DONE title
+  - duedate
+  - priority affects color?
+- DONE Expand a single todo to see/edit its details (in a modal)
+- DONE Delete a todo
 
 I have already created something inspired by Todoist, so I will look instead at any.do as it isn't Mac only and has a free tier.
 
@@ -41,10 +43,26 @@ I have already created something inspired by Todoist, so I will look instead at 
 
 ### UI
 
-- Build modal to add a todo.
+- DONE (but add more fields) Build modal to add a todo.
+  - Add due date
+- Build modal to edit a todo
+  - DONE Edit title
+  - Add due date
+  - Add the other stuff
+  - Add subtasks
 - Build page to show todos within a project - mark complete, edit, delete
-- Build page to show a list of projects - mark complete, edit, delete
-- Build home / landing page
+  - DONE Edit
+  - DONE Mark complete
+  - DONE Delete
+
+- Build project interaction when click buttons next to its big title:
+  - mark complete
+  - edit
+  - delete
+
+- Build about page
+
+- Style page
 
 OK going over this in some more detail.
 
