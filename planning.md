@@ -16,6 +16,7 @@
   - DONE Users can delete projects (todos all go back into Inbox)
   - DONE A todo can have only one project.
 - Application and DOM are separate.
+- **Use webpacker**
 - **Use npm date-fns to manipulate dates and times.**
 - DONE use [localStorage] <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API> to store data on user's computer.
   - DONE Data may not be persistent, so handle not finding data.
