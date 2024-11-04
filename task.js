@@ -24,6 +24,8 @@ export default class Task {
   }
 
   createSubTask(title) {
+    if (title == "") return false;
+
     const subTask = {
       id: this.nextID,
       title: title,
@@ -54,7 +56,7 @@ export default class Task {
     return this.subTasks.filter(subTask => { return subTask.id === id })[0];
   }
 
-  toggleSubTaskComplete(id) {
+  toggleCompleteSubTask(id) {
     const returnValue = (this.findSubTask(id).completed = !this.findSubTask(id).completed);
     document.dispatchEvent(new Event('stateChanged'));
     return returnValue;

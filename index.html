@@ -53,11 +53,26 @@
       </form>
     </dialog>
 
+    <dialog class="subtask-dialog">
+      <form action="#" class="subtask-dialog__form" method="get">
+        <fieldset>
+          <div class="subtask-dialog__item">
+            <label for="newSubTaskTitle">Subtask Title:</label>
+            <input type="text" id="newSubTaskTitle" name="title">
+          </div>
+        </fieldset>
+        <div class="subtask-dialog__buttons">
+          <button class="btn subtask-dialog__submit" type="submit">Add</button>
+          <button class="btn subtask-dialog__close">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
     <dialog class="edit-project-dialog">
       <form action="#" class="edit-project-dialog__form" method="get">
         <fieldset>
           <div class="edit-project-dialog__item">
-            <label for="editProjectTitle">Task Title:</label>
+            <label for="editProjectTitle">Project Title:</label>
             <input type="text" id="editProjectTitle" name="title">
           </div>
         </fieldset>
@@ -75,10 +90,31 @@
             <label for="editTaskTitle">Task Title:</label>
             <input type="text" id="editTaskTitle" name="title">
           </div>
+          <div class="edit-task-dialog__subtasks">
+            <!-- Populated by displayTasks -->
+          </div>
         </fieldset>
         <div class="edit-task-dialog__buttons">
           <button class="btn edit-task-dialog__submit" type="submit">Edit</button>
           <button class="btn edit-task-dialog__close">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="edit-subtask-dialog">
+      <form action="#" class="edit-subtask-dialog__form" method="get">
+        <fieldset>
+          <div class="edit-subtask-dialog__item">
+            <label for="editSubTaskTitle">Subtask Title:</label>
+            <input type="text" id="editSubTaskTitle" name="title">
+          </div>
+          <div class="edit-subtask-dialog__subtasks">
+            <!-- Populated by displayTasks -->
+          </div>
+        </fieldset>
+        <div class="edit-subtask-dialog__buttons">
+          <button class="btn edit-subtask-dialog__submit" type="submit">Edit</button>
+          <button class="btn edit-subtask-dialog__close">Cancel</button>
         </div>
       </form>
     </dialog>

@@ -47,6 +47,10 @@ export default class Projects {
     return returnValue;
   }
 
+  completed(id) {
+    return this.read(id).completed;
+  }
+
   projectTitles() {
     const titleList = [];
     this.projectList.map(project => {

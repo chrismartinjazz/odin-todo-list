@@ -102,4 +102,6 @@ function seedMyApp() {
   myApp.tasks.create("wash dishes", 2);
   myApp.tasks.create("put away clothes", 2);
   myApp.tasks.create("make the app");
+  myApp.tasks.read(3).createSubTask("add subtask function")
+  myApp.tasks.read(3).createSubTask("add duedates")
 }

@@ -12,6 +12,10 @@ export default class Display {
     this.taskForm = document.querySelector(".task-dialog__form");
     this.initializeTaskDialog();
 
+    this.subTaskDialog = document.querySelector(".subtask-dialog");
+    this.subTaskForm = document.querySelector(".subtask-dialog__form");
+    this.initializeSubTaskDialog();
+
     this.editProjectDialog = document.querySelector(".edit-project-dialog");
     this.editProjectForm = document.querySelector(".edit-project-dialog__form");
     this.initializeEditProjectDialog();
@@ -20,10 +24,13 @@ export default class Display {
     this.editTaskForm = document.querySelector(".edit-task-dialog__form");
     this.initializeEditTaskDialog();
 
-
+    this.editSubTaskDialog = document.querySelector(".edit-subtask-dialog");
+    this.editSubTaskForm = document.querySelector(".edit-subtask-dialog__form");
+    this.initializeEditSubTaskDialog();
 
     this.currentProjectId = 1;
     this.currentTaskId = null;
+    this.currentSubTaskId = null;
   }
 
   displayProjects() {
@@ -155,7 +162,64 @@ export default class Display {
     const task = this.myApp.tasks.read(id);
 
     document.getElementById("editTaskTitle").value = task.title;
+    const subTasks = document.querySelector(".edit-task-dialog__subtasks");
+    subTasks.innerHTML = "";
+
+    const myDiv = document.createElement("div");
+    myDiv.classList.add("edit-task-dialog__subtask")
+    for (let i in task.subTasks) {
+      const mySubtask = document.createElement("div");
+
+      const myCompleteSubTaskButton = document.createElement("button");
+      myCompleteSubTaskButton.classList.add("edit-task-dialog__subtask__complete")
+      myCompleteSubTaskButton.innerText = "o";
+      myCompleteSubTaskButton.addEventListener("click", () => {
+        task.toggleCompleteSubTask(task.subTasks[i].id);
+        this.editTask(id);
+      });
+      mySubtask.appendChild(myCompleteSubTaskButton);
+
+      const myEditSubTaskButton = document.createElement("button")
+      myEditSubTaskButton.classList.add("edit-task-dialog__subtask__edit")
+      if (task.subTasks[i].completed) myEditSubTaskButton.classList.add("completed");
+      myEditSubTaskButton.innerText = task.subTasks[i].title;
+      myEditSubTaskButton.addEventListener("click", () => {
+        this.editSubTask(task.id, task.subTasks[i].id);
+      });
+      mySubtask.appendChild(myEditSubTaskButton)
+
+      if (task.subTasks[i].completed) {
+        const myDeleteSubTaskButton = document.createElement("button");
+        myDeleteSubTaskButton.classList.add("edit-task-dialog__subtask__delete")
+        myDeleteSubTaskButton.innerText = "x";
+        myDeleteSubTaskButton.addEventListener("click", () => {
+          task.deleteSubTask(task.subTasks[i].id);
+          this.editTask(id);
+        });
+        mySubtask.appendChild(myDeleteSubTaskButton);
+      }
+
+      myDiv.appendChild(mySubtask);
+    }
+
+    const myNewSubTaskButton = document.createElement("button");
+    myNewSubTaskButton.classList.add("btn", "subtasks__new_task_button");
+    myNewSubTaskButton.innerText = "+";
+    myNewSubTaskButton.addEventListener("click", () => {
+      this.subTaskDialog.showModal();
+    })
+    myDiv.appendChild(myNewSubTaskButton);
+
+    subTasks.appendChild(myDiv);
     this.editTaskDialog.showModal();
+  }
+
+  editSubTask(taskId, subTaskId) {
+    this.currentSubTaskId = subTaskId;
+    const task = this.myApp.tasks.read(taskId);
+
+    document.getElementById("editSubTaskTitle").value = task.findSubTask(subTaskId).title;
+    this.editSubTaskDialog.showModal();
   }
 
   toggleCompleteTask(id) {
@@ -179,6 +243,10 @@ export default class Display {
     this.initializeCloseDialog(this.taskDialog, ".task-dialog__close");
     this.initializeTaskSubmitForm();
   }
+  initializeSubTaskDialog() {
+    this.initializeCloseDialog(this.subTaskDialog, ".subtask-dialog__close");
+    this.initializeSubTaskSubmitForm();
+  }
 
   initializeEditProjectDialog() {
     this.initializeCloseDialog(this.editProjectDialog, ".edit-project-dialog__close");
@@ -188,6 +256,11 @@ export default class Display {
   initializeEditTaskDialog() {
     this.initializeCloseDialog(this.editTaskDialog, ".edit-task-dialog__close");
     this.initializeEditTaskSubmitForm();
+  }
+
+  initializeEditSubTaskDialog() {
+    this.initializeCloseDialog(this.editSubTaskDialog, ".edit-subtask-dialog__close");
+    this.initializeEditSubTaskSubmitForm();
   }
 
   initializeOpenDialog(dialog, openButtonSelector) {
@@ -228,6 +301,18 @@ export default class Display {
     });
   }
 
+  initializeSubTaskSubmitForm() {
+    this.subTaskForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const title = document.getElementById("newSubTaskTitle").value;
+      this.myApp.tasks.read(this.currentTaskId).createSubTask(title);
+      this.subTaskDialog.close();
+      this.subTaskForm.reset();
+      this.editTask(this.currentTaskId);
+    });
+  }
+
   initializeEditProjectSubmitForm() {
     this.editProjectForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -240,6 +325,7 @@ export default class Display {
       this.displayTasks(this.currentProjectId);
     })
   }
+
   initializeEditTaskSubmitForm() {
     this.editTaskForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -249,6 +335,18 @@ export default class Display {
       this.editTaskDialog.close();
       this.editTaskForm.reset();
       this.displayTasks(this.currentProjectId);
+    })
+  }
+
+  initializeEditSubTaskSubmitForm() {
+    this.editSubTaskForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const title = document.getElementById("editSubTaskTitle").value;
+      this.myApp.tasks.read(this.currentTaskId).updateSubTask(this.currentSubTaskId, title);
+      this.editSubTaskDialog.close();
+      this.editSubTaskForm.reset();
+      this.editTask(this.currentTaskId);
     })
   }
 }
