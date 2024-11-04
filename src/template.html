@@ -45,6 +45,10 @@
             <label for="newTaskTitle">Task Title:</label>
             <input type="text" id="newTaskTitle" name="title">
           </div>
+          <div class="task-dialog__item">
+            <label for="newTaskDueDate">Due Date:</label>
+            <input type="date" id="newTaskDueDate" name="date">
+          </div>
         </fieldset>
         <div class="task-dialog__buttons">
           <button class="btn task-dialog__submit" type="submit">Add</button>
@@ -90,6 +94,10 @@
             <label for="editTaskTitle">Task Title:</label>
             <input type="text" id="editTaskTitle" name="title">
           </div>
+          <div class="edit-task-dialog__item">
+            <label for="editTaskDueDate">Due Date:</label>
+            <input type="date" id="editTaskDueDate" name="date">
+          </div>
           <div class="edit-task-dialog__subtasks">
             <!-- Populated by displayTasks -->
           </div>
@@ -120,8 +128,6 @@
     </dialog>
 
   </div>
-
-  <script type="module" src="main.js"></script>
 </body>
 
 </html>
