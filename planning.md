@@ -16,7 +16,7 @@
   - DONE Users can delete projects (todos all go back into Inbox)
   - DONE A todo can have only one project.
 - Application and DOM are separate.
-- Use npm date-fns to manipulate dates and times.
+- **Use npm date-fns to manipulate dates and times.**
 - DONE use [localStorage] <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API> to store data on user's computer.
   - DONE Data may not be persistent, so handle not finding data.
   - DONE Note that this uses JSON.
@@ -26,9 +26,9 @@ UI is able to:
 - DONE View all projects (Home?)
 - View all todos in each project
   - DONE title
-  - duedate
-  - subtask status (e.g. 1/4 complete)
-  - priority affects color?
+  - **duedate**
+  - **subtask status (e.g. 1/4 complete)**
+  - **priority affects color?**
 - DONE Expand a single todo to see/edit its details (in a modal)
 - DONE Delete a todo
 
@@ -45,25 +45,26 @@ I have already created something inspired by Todoist, so I will look instead at 
 ### UI
 
 - DONE Build modal to add a todo.
-  - Add due date
+  - **Add due date**
 - Build modal to edit a todo
   - DONE Edit title
-  - Edit project (drop down list?)
-  - Add due date
-  - Add the other stuff
-  - Add subtasks
+  - **Edit project (drop down list?)**
+  - **Edit due date**
+  - **Edit the other stuff**
+  - DONE Add and edit subtasks
 - Build page to show todos within a project - mark complete, edit, delete
   - DONE Edit
   - DONE Mark complete
   - DONE Delete
+  - **Todo includes the date and subtask status**
 - Build project interaction when click buttons next to its title:
   - DONE mark complete
   - DONE edit
   - DONE delete
 
-- Build about page
+- **Build about page**
 
-- Style page
+- **Style page**
 
 OK going over this in some more detail.
 
@@ -88,7 +89,7 @@ If click the plus button, get a big modal:
       +-----------------+
 ```
 
-Once submitted, go to the project view for the new project. Also get to project view by clicking on one of the buttons.
+Once submitted, go to the project view for the new project. Also get to project view by clicking on one of the project buttons.
 
 Here we have a title, a list of tasks (empty for new project) and down the bottom a button for + Add task
 
@@ -108,12 +109,12 @@ Here we have a title, a list of tasks (empty for new project) and down the botto
 +-----------------------------------+
 ```
 
-The tasks are sorted in order of due date, most recent at the top.
-The second line of the task shows the due date if it has one, and the status of subtasks (completed / count).
+**The tasks are sorted in order of due date, most recent at the top.**
+**The second line of the task shows the due date if it has one, and the status of subtasks (completed / count).**
 If click Add Task, opens the modal form to add / edit a task.
 If click the circle, the task is marked complete, crossed out. An X button appears next to it. Click that and it is deleted.
 
-Click on the body of the task and it opens a dialog to view and edit (combined) the task. Can change the Notes, add Subtasks, etc.
+Click on the body of the task and it opens a dialog to view and edit (combined) the task. Can change the **Notes, Due Date**, add Subtasks, etc.
 
 ```txt
 +-------------------------+
