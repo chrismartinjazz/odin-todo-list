@@ -98,9 +98,16 @@
             <label for="editTaskDueDate">Due Date:</label>
             <input type="date" id="editTaskDueDate" name="date">
           </div>
+          <div class="edit-task-dialog__item">
+            <label for="editTaskProjectId">Project:</label>
+            <select name="editTaskProjectId" id="editTaskProjectId">
+              <!-- Populated by displayTasks -->
+            </select>
+          </div>
           <div class="edit-task-dialog__subtasks">
             <!-- Populated by displayTasks -->
           </div>
+
         </fieldset>
         <div class="edit-task-dialog__buttons">
           <button class="btn edit-task-dialog__submit" type="submit">Edit</button>

@@ -1,4 +1,4 @@
-import { formatDistance, subDays } from "date-fns";
+import { isToday, format, isTomorrow, isYesterday } from "date-fns";
 
 export default class Display {
   constructor(myApp) {
@@ -140,7 +140,9 @@ export default class Display {
     const myEditTaskButton = document.createElement("button");
     myEditTaskButton.classList.add("tasks__task__edit")
     if (task.completed) myEditTaskButton.classList.add("completed");
-    myEditTaskButton.innerText = task.title;
+    myEditTaskButton.innerHTML = `<span>${task.title}<span>`;
+    if (task.dueDate) myEditTaskButton.innerHTML += `<br>${this.formatDate(new Date(task.dueDate))}`;
+    if (task.hasSubTasks()) myEditTaskButton.innerHTML += ` | ${task.subTasksComplete()}/${task.subTasksCount()}`;
     myEditTaskButton.addEventListener("click", () => {
       this.editTask(task.id);
     });
@@ -155,7 +157,6 @@ export default class Display {
       });
       myDiv.appendChild(myDeleteTaskButton);
     }
-
     return myDiv;
   }
 
@@ -165,6 +166,23 @@ export default class Display {
 
     document.getElementById("editTaskTitle").value = task.title;
     document.getElementById("editTaskDueDate").value = task.dueDate;
+
+    const projectSelect = document.getElementById("editTaskProjectId");
+    projectSelect.innerHTML = "";
+
+    const projectList = this.myApp.projects.projectList;
+    for (let i in projectList) {
+      if (!projectList[i].completed) {
+        const myOption = document.createElement("option");
+        myOption.setAttribute("value", projectList[i].id);
+        myOption.innerText = (projectList[i].title);
+        if (task.projectId == projectList[i].id) {
+          myOption.setAttribute("selected", "selected");
+        }
+        projectSelect.appendChild(myOption);
+      }
+    }
+
     const subTasks = document.querySelector(".edit-task-dialog__subtasks");
     subTasks.innerHTML = "";
 
@@ -300,8 +318,6 @@ export default class Display {
       const dueDate = document.getElementById("newTaskDueDate").value;
       const newTask = this.myApp.tasks.create(title, this.currentProjectId);
       newTask.update({ dueDate: dueDate });
-      console.log(dueDate);
-      console.log(newTask);
       this.taskDialog.close();
       this.taskForm.reset();
       this.displayTasks(this.currentProjectId);
@@ -339,7 +355,9 @@ export default class Display {
 
       const title = document.getElementById("editTaskTitle").value;
       const dueDate = document.getElementById("editTaskDueDate").value;
-      const editedTask = this.myApp.tasks.read(this.currentTaskId).update({ title: title, dueDate: dueDate })
+      const projectId = Number(document.getElementById("editTaskProjectId").value);
+      const editedTask = this.myApp.tasks.read(this.currentTaskId).update({ title: title, dueDate: dueDate, projectId: projectId });
+      console.log(editedTask);
       this.editTaskDialog.close();
       this.editTaskForm.reset();
       this.displayTasks(this.currentProjectId);
@@ -356,6 +374,15 @@ export default class Display {
       this.editSubTaskForm.reset();
       this.editTask(this.currentTaskId);
     })
+  }
+
+  formatDate(date) {
+    let formattedDate;
+    if (isToday(date)) { formattedDate = "Today" } else
+      if (isTomorrow(date)) { formattedDate = "Tomorrow" } else
+        if (isYesterday(date)) { formattedDate = "Yesterday" } else
+          formattedDate = format(date, 'MMM d, y');
+    return formattedDate;
   }
 }
 

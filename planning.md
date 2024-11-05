@@ -15,9 +15,9 @@
   - DONE Users can create new projects
   - DONE Users can delete projects (todos all go back into Inbox)
   - DONE A todo can have only one project.
-- Application and DOM are separate.
-- **Use webpacker**
-- **Use npm date-fns to manipulate dates and times.**
+- DONE Application and DOM are separate.
+- DONE Use webpacker
+- DONE Use npm date-fns to manipulate dates and times.
 - DONE use [localStorage] <https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API> to store data on user's computer.
   - DONE Data may not be persistent, so handle not finding data.
   - DONE Note that this uses JSON.
@@ -27,8 +27,8 @@ UI is able to:
 - DONE View all projects (Home?)
 - View all todos in each project
   - DONE title
-  - **duedate**
-  - **subtask status (e.g. 1/4 complete)**
+  - DONE duedate
+  - DONE subtask status (e.g. 1/4 complete)
   - **priority affects color?**
 - DONE Expand a single todo to see/edit its details (in a modal)
 - DONE Delete a todo
@@ -46,25 +46,25 @@ I have already created something inspired by Todoist, so I will look instead at 
 ### UI
 
 - DONE Build modal to add a todo.
-  - **Add due date**
+  - DONE Add due date
 - Build modal to edit a todo
   - DONE Edit title
-  - **Edit project (drop down list?)**
-  - **Edit due date**
+  - Edit project (drop down list?)
+  - DONE Edit due date
   - **Edit the other stuff**
   - DONE Add and edit subtasks
 - Build page to show todos within a project - mark complete, edit, delete
   - DONE Edit
   - DONE Mark complete
   - DONE Delete
-  - **Todo includes the date and subtask status**
-- Build project interaction when click buttons next to its title:
+  - Todo includes the date and subtask status
+- DONE Build project interaction when click buttons next to its title:
   - DONE mark complete
   - DONE edit
   - DONE delete
 
 - **Build about page**
-
+- **Refactor**
 - **Style page**
 
 OK going over this in some more detail.

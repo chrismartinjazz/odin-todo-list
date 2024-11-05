@@ -56,6 +56,18 @@ export default class Task {
     return this.subTasks.filter(subTask => { return subTask.id === id })[0];
   }
 
+  hasSubTasks() {
+    return this.subTasks.length > 0;
+  }
+
+  subTasksComplete() {
+    return this.subTasks.filter(subTask => subTask.completed).length;
+  }
+
+  subTasksCount() {
+    return this.subTasks.length;
+  }
+
   toggleCompleteSubTask(id) {
     const returnValue = (this.findSubTask(id).completed = !this.findSubTask(id).completed);
     document.dispatchEvent(new Event('stateChanged'));
