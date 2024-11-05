@@ -4,6 +4,7 @@ export default class Tasks {
   constructor(properties = {}) {
     this.nextID = properties["nextID"] || 1;
     this.taskList = properties["taskList"] || [];
+    this.tagList = properties["tagList"] || [];
   }
 
   create(title = '', projectId = 1) {
@@ -37,5 +38,24 @@ export default class Tasks {
 
   tasksInProject(projectId) {
     return this.taskList.filter(task => task.projectId === projectId);
+  }
+
+  hasTag(id, tag) {
+    // Fix so works with tag object instead of index
+    // return this.taskList.read(id).tagList.includes(tag);
+  }
+
+  addTag(id, tag, colorCode) {
+    if (this.hasTag(id, tag)) return false;
+
+    if (!this.taskList.includes(tag)) this.taskList.push({ tag: tag, colorCode: colorCode });
+
+    return this.read(id).tags.push(tag);
+  }
+
+  removeTag(id, tag) {
+    if (!this.hasTag(id, tag)) return false;
+
+    // return this.read(id).tags.splice(this.tags.indexOf(tag), 1);
   }
 }
