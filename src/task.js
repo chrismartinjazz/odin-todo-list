@@ -8,7 +8,7 @@ export default class Task {
     this.projectId = properties["projectId"] || this.projectId || 1;
     this.title = properties["title"] || this.title || null;
     this.description = properties["description"] || this.description || null;
-    this.tags = properties["tags"] || this.tags || [];
+    this.tags = properties["tags"] || this.tags || null;
     this.dueDate = properties["dueDate"] || this.dueDate || null;
     this.completed = properties["completed"] || this.completed || false;
     this.subTasks = properties["subTasks"] || this.subTasks || [];
@@ -21,22 +21,6 @@ export default class Task {
     const returnValue = (this.completed = !this.completed);
     document.dispatchEvent(new Event('stateChanged'));
     return returnValue;
-  }
-
-  hasTag(tag) {
-    return this.tags.includes(tag);
-  }
-
-  addTag(tag) {
-    if (this.hasTag(tag)) return false;
-
-    return this.tags.push(tag);
-  }
-
-  removeTag(tag) {
-    if (!this.hasTag(tag)) return false;
-
-    return this.tags.splice(this.tags.indexOf(tag), 1);
   }
 
   createSubTask(title) {
