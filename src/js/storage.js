@@ -7,17 +7,20 @@ export function storeMyApp(myApp) {
   return localStorage.setItem("myApp", JSON.stringify(myApp));
 }
 
+// Rebuild the myApp object from localStorage data, including all nested objects.
 export function getMyApp() {
+  // Read the localStorage data into a new App object.
   let newApp = JSON.parse(localStorage.getItem("myApp"));
 
-  // Convert the list of tasks to Task objects.
+  // Convert the list of tasks in the App object to Task objects.
   const newTaskList = [];
   for (let task in newApp.tasks.taskList) {
     const newTask = new Task(newApp.tasks.taskList[task]);
     newTaskList.push(newTask);
   }
 
-  // Copy all properties to new object.
+  // Replace the tasks in newApp with Task objects, and rebuild the
+  // "Tasks" and "Projects" in newApp with new objects.
   Object.assign(newApp.tasks.taskList, newTaskList);
   newApp.tasks = new Tasks(newApp.tasks);
   newApp.projects = new Projects(newApp.projects);

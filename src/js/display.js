@@ -108,7 +108,9 @@ export default class Display {
   }
 
   toggleCompleteProject(id) {
-    this.myApp.projects.toggleComplete(id);
+    this.myApp.completeProject(id);
+    // this.myApp.projects.toggleComplete(id);
+
     this.displayProjects();
     this.displayTasks(this.currentProjectId);
   }

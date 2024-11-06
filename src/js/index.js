@@ -24,6 +24,20 @@ let display = new Display(myApp);
 display.displayProjects();
 display.displayTasks(1);
 
+// TESTING
+function seedMyApp() {
+  myApp.projects.create("home");
+  myApp.tasks.create("wash dishes", 2);
+  myApp.tasks.create("put away clothes", 2);
+  myApp.tasks.create("make the app");
+  myApp.tasks.read(3).createSubTask("add subtask function")
+  myApp.tasks.read(3).createSubTask("add duedates");
+  myApp.tasks.read(3).update({ dueDate: "2024-11-06" });
+  myApp.tasks.addTag(3, "priority");
+  myApp.tasks.create("make it good");
+}
+// TESTING
+
 // Testing!
 /*
 // Test the creation and manipulation of tasks
@@ -98,14 +112,3 @@ console.log(myApp.projects.projectTitles(), ": inbox");
 // console.log(myApp);
 */
 
-function seedMyApp() {
-  myApp.projects.create("home");
-  myApp.tasks.create("wash dishes", 2);
-  myApp.tasks.create("put away clothes", 2);
-  myApp.tasks.create("make the app");
-  myApp.tasks.read(3).createSubTask("add subtask function")
-  myApp.tasks.read(3).createSubTask("add duedates");
-  myApp.tasks.read(3).update({ dueDate: "2024-11-06" });
-  myApp.tasks.addTag(3, "priority");
-  myApp.tasks.create("make it good");
-}
