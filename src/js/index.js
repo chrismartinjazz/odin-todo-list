@@ -1,4 +1,4 @@
-import "./style.css";
+import "../style.css";
 import Application from "./application.js";
 import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
 import Display from "./display.js";
