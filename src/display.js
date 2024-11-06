@@ -166,6 +166,7 @@ export default class Display {
 
     document.getElementById("editTaskTitle").value = task.title;
     document.getElementById("editTaskDueDate").value = task.dueDate;
+    document.getElementById("editTaskDescription").value = task.description;
 
     const projectSelect = document.getElementById("editTaskProjectId");
     projectSelect.innerHTML = "";
@@ -183,8 +184,30 @@ export default class Display {
       }
     }
 
-    const subTasks = document.querySelector(".edit-task-dialog__subtasks");
-    subTasks.innerHTML = "";
+    const tags = this.myApp.tasks.tagList;
+    const templateTags = document.querySelector(".edit-task-dialog__tags");
+    templateTags.innerHTML = "";
+    for (let i in tags) {
+      const myTag = document.createElement("div");
+      myTag.classList.add("edit-task-dialog__tag");
+
+      const myInput = document.createElement("input");
+      myInput.setAttribute("type", "checkbox");
+      myInput.setAttribute("name", "tags");
+      myInput.setAttribute("value", tags[i].tag);
+      if (this.myApp.tasks.hasTag(this.currentTaskId, tags[i].tag)) myInput.checked = true;
+      myTag.appendChild(myInput);
+
+      const myLabel = document.createElement("label");
+      myLabel.setAttribute("for", "tags");
+      myLabel.innerText = tags[i].tag;
+      myTag.appendChild(myLabel);
+
+      templateTags.appendChild(myTag);
+    }
+
+    const templateSubTasks = document.querySelector(".edit-task-dialog__subtasks");
+    templateSubTasks.innerHTML = "";
 
     const myDiv = document.createElement("div");
     myDiv.classList.add("edit-task-dialog__subtask")
@@ -231,7 +254,7 @@ export default class Display {
     })
     myDiv.appendChild(myNewSubTaskButton);
 
-    subTasks.appendChild(myDiv);
+    templateSubTasks.appendChild(myDiv);
     this.editTaskDialog.showModal();
   }
 
@@ -354,10 +377,21 @@ export default class Display {
       event.preventDefault();
 
       const title = document.getElementById("editTaskTitle").value;
+      const description = document.getElementById("editTaskDescription").value;
       const dueDate = document.getElementById("editTaskDueDate").value;
       const projectId = Number(document.getElementById("editTaskProjectId").value);
-      const editedTask = this.myApp.tasks.read(this.currentTaskId).update({ title: title, dueDate: dueDate, projectId: projectId });
-      console.log(editedTask);
+      const templateTagCheckboxes = document.querySelectorAll('input[name="tags"]:checked');
+      let tags = [];
+      templateTagCheckboxes.forEach(checkbox => tags.push(checkbox.value));
+
+      const editedTask = this.myApp.tasks.read(this.currentTaskId).update(
+        {
+          title: title,
+          description: description,
+          dueDate: dueDate,
+          projectId: projectId,
+          tags: tags
+        });
       this.editTaskDialog.close();
       this.editTaskForm.reset();
       this.displayTasks(this.currentProjectId);

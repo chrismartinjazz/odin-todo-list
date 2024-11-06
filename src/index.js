@@ -106,5 +106,6 @@ function seedMyApp() {
   myApp.tasks.read(3).createSubTask("add subtask function")
   myApp.tasks.read(3).createSubTask("add duedates");
   myApp.tasks.read(3).update({ dueDate: "2024-11-06" });
-
+  myApp.tasks.addTag(3, "priority");
+  myApp.tasks.create("make it good");
 }

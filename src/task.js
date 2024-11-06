@@ -8,7 +8,7 @@ export default class Task {
     this.projectId = properties["projectId"] || this.projectId || 1;
     this.title = properties["title"] || this.title || null;
     this.description = properties["description"] || this.description || null;
-    this.tags = properties["tags"] || this.tags || null;
+    this.tags = properties["tags"] || this.tags || [];
     this.dueDate = properties["dueDate"] || this.dueDate || null;
     this.completed = properties["completed"] || this.completed || false;
     this.subTasks = properties["subTasks"] || this.subTasks || [];

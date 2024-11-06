@@ -29,7 +29,7 @@ UI is able to:
   - DONE title
   - DONE duedate
   - DONE subtask status (e.g. 1/4 complete)
-  - **priority affects color?**
+  
 - DONE Expand a single todo to see/edit its details (in a modal)
 - DONE Delete a todo
 
@@ -47,13 +47,13 @@ I have already created something inspired by Todoist, so I will look instead at 
 
 - DONE Build modal to add a todo.
   - DONE Add due date
-- Build modal to edit a todo
+- DONE Build modal to edit a todo
   - DONE Edit title
-  - Edit project (drop down list?)
+  - DONE Edit project (drop down list?)
   - DONE Edit due date
-  - **Edit the other stuff**
+  - DONE Edit the other stuff
   - DONE Add and edit subtasks
-- Build page to show todos within a project - mark complete, edit, delete
+- DONE Build page to show todos within a project - mark complete, edit, delete
   - DONE Edit
   - DONE Mark complete
   - DONE Delete
@@ -63,9 +63,12 @@ I have already created something inspired by Todoist, so I will look instead at 
   - DONE edit
   - DONE delete
 
-- **Build about page**
 - **Refactor**
 - **Style page**
+  - **priority tag affects color**
+- **Build about page**
+  - **Download your data?**
+  - **Restore your data?**
 
 OK going over this in some more detail.
 
@@ -111,11 +114,11 @@ Here we have a title, a list of tasks (empty for new project) and down the botto
 ```
 
 **The tasks are sorted in order of due date, most recent at the top.**
-**The second line of the task shows the due date if it has one, and the status of subtasks (completed / count).**
+The second line of the task shows the due date if it has one, and the status of subtasks (completed / count).
 If click Add Task, opens the modal form to add / edit a task.
 If click the circle, the task is marked complete, crossed out. An X button appears next to it. Click that and it is deleted.
 
-Click on the body of the task and it opens a dialog to view and edit (combined) the task. Can change the **Notes, Due Date**, add Subtasks, etc.
+Click on the body of the task and it opens a dialog to view and edit (combined) the task. Can change the Notes, Due Date, add Subtasks, etc.
 
 ```txt
 +-------------------------+
