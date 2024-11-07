@@ -166,3 +166,90 @@ DONE I know it should have created and modified datetime but keep it simple.
 DONE This will be a JSON object. Make it a single JSON for the whole package. So, an array of all the todo objects.
 
 DONE Will need a wrapper to convert the objects to json.
+
+=======================================================
+
+Dependencies within display.js:
+
+initializeOpenDialog()
+initializeCloseDialog()
+
+**initializeProjectDialog()**
+  projectDialog
+  **initializeProjectSubmitForm()**
+    projectForm
+    projectDialog
+    <emit displayProjects()>
+
+**initializeProjectDialog()**
+  projectDialog
+  **initializeProjectSubmitForm()**
+    projectForm
+    projectDialog
+    <emit displayProjects()>
+
+**initializeTaskDialog()**
+  taskDialog
+  **initializeTaskSubmitForm()**
+    taskForm
+    taskDialog
+    currentProjectId
+    <emit displayTasks(this.currentProjectId)>
+
+**initializeSubTaskDialog()**
+  subTaskDialog
+  **initializeSubTaskSubmitForm()**
+    subTaskForm
+    subTaskDialog
+    currentTaskId
+    <emit editTask(currentTaskId)>
+
+**initializeEditProjectDialog()**
+  editProjectDialog
+  **editProjectSubmitForm()**
+    editProjectForm
+    editProjectDialog
+    currentProjectId
+    <emit displayProjects()>
+    <emit displayTasks(this.currentProjectId)>
+
+**initializeEditTaskDialog()**
+  editTaskDialog
+  **initializeEditTaskSubmitForm()**
+    editTaskForm
+    editTaskDialog
+    <emit displayTasks(currentProjectId)>
+
+**initializeEditSubTaskDialog()**
+  editSubTaskDialog
+  **initializeEditSubTaskSubmitForm()**
+    editSubTaskForm
+    editSubTaskDialog
+    currentTaskId
+    currentSubTaskId
+    <emit editTask(currentTaskId)>
+
+**displayProjects()**
+  projectsList
+  <emit displayTasks()>
+
+**displayTasks()**
+  **makeProjectDiv()**
+    **toggleCompleteProject()**
+      <emit displayProjects()>
+      <emit displayTasks(currentProjectId)>
+    **editProject()**
+      editProjectDialog
+    **deleteProject()**
+      currentProjectId
+      <emit displayProjects()>
+      <emit this.displayTasks(currentProjectId)>
+  **makeTaskDiv()**
+    <emit toggleCompleteTask()>
+    **formatDate()**
+    <emit editTask()>
+    <emit deleteTask()>
+
+**editTask()**
+  currentTaskId
+  
