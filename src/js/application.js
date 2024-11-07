@@ -2,6 +2,7 @@ import Tasks from "./tasks.js"
 import Projects from "./projects.js"
 import { storeMyApp } from "./storage.js";
 
+// Hold projects and tasks, handle completion and deletion of projects.
 export default class Application {
   /*
     All constructors use consistent format:
@@ -26,7 +27,7 @@ export default class Application {
   // Set all tasks in a project to be complete. Leave subtask status as is. Set the project to be complete.
   completeProject(projectId) {
     if (projectId == 1) return false;
-    if (this.projects.read(projectId).complete) return false;
+    if (this.projects.completed(projectId)) return false;
 
     this.tasks.tasksInProject(projectId).map(task => task.update({ completed: true }));
     this.projects.toggleComplete(projectId);

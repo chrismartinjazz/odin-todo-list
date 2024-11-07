@@ -1,3 +1,4 @@
+// Hold the details of a task and manage subtasks.
 export default class Task {
   constructor(properties = {}) {
     this.update(properties);

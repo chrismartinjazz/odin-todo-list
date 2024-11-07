@@ -1,3 +1,4 @@
+// Handle creation and editing of projects
 export default class Projects {
   constructor(properties = {}) {
     this.nextID = properties["nextID"] || 1;

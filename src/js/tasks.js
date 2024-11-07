@@ -1,5 +1,6 @@
 import Task from "./task.js";
 
+// Handle creation and editing of tasks and their tags.
 export default class Tasks {
   constructor(properties = {}) {
     this.nextID = properties["nextID"] || 1;

@@ -1,9 +1,17 @@
 import { isToday, format, isTomorrow, isYesterday } from "date-fns";
 
+// Initializes dialogs x 6.
+// Displays the Projects list.
+// Displays the Task list for a project.
+// Handles the interface for completion, editing, deleting of projects.
+// Handles the interface for completion, editing, deleting of tasks.
+// Handles the interface for completion, editing, deleting of subtasks.
+
 export default class Display {
   constructor(myApp) {
     this.myApp = myApp;
 
+    this.projectInterface
     this.projectsList = document.querySelector(".projects__list");
     this.projectDialog = document.querySelector(".project-dialog");
     this.projectForm = document.querySelector(".project-dialog__form");
@@ -109,8 +117,6 @@ export default class Display {
 
   toggleCompleteProject(id) {
     this.myApp.completeProject(id);
-    // this.myApp.projects.toggleComplete(id);
-
     this.displayProjects();
     this.displayTasks(this.currentProjectId);
   }
