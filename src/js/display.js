@@ -57,7 +57,7 @@ export default class Display {
   }
 
   initializeResetButton() {
-    const templateResetButton = document.querySelector(".reset");
+    const templateResetButton = document.querySelector(".nav__reset");
     templateResetButton.addEventListener("click", () => {
       deleteMyApp();
       this.myApp = getMyApp();
@@ -66,7 +66,7 @@ export default class Display {
     })
   }
 
-  // Helper functions for dialog initialization.
+  // Helper functions
   initializeOpenDialog(dialog, openButtonSelector) {
     const openButton = document.querySelector(openButtonSelector);
     openButton.addEventListener("click", () => {
@@ -80,6 +80,18 @@ export default class Display {
       dialog.close();
     });
   }
+
+  makeElement(htmlTag = "div", cssClass, text, onClickFunction) {
+    const myElement = document.createElement(htmlTag);
+    if (cssClass) myElement.classList.add(cssClass);
+    if (text) myElement.innerText = text;
+    if (onClickFunction) {
+      myElement.addEventListener("click", onClickFunction);
+    };
+    return myElement;
+  }
+
+  // Dialog initialization
 
   initializeProjectDialog() {
     // Initialize open and close buttons for the dialog in the template and the form.
@@ -204,17 +216,8 @@ export default class Display {
       this.editTask(this.currentTaskId);
     })
   }
-  // ========================================================================
 
-  makeElement(htmlTag = "div", cssClass, text, onClickFunction) {
-    const myElement = document.createElement(htmlTag);
-    if (cssClass) myElement.classList.add(cssClass);
-    if (text) myElement.innerText = text;
-    if (onClickFunction) {
-      myElement.addEventListener("click", onClickFunction);
-    };
-    return myElement;
-  }
+  // Display the Projects pane
 
   displayProjects() {
     this.projectsList.innerHTML = "";
@@ -222,12 +225,13 @@ export default class Display {
     for (let i in projects) {
       const myDiv = this.makeElement("div", "projects__project");
       const myButton = this.makeElement("button", "projects__project__open", projects[i].title, () => this.displayTasks(projects[i].id));
+      if (projects[i].completed) myButton.classList.add("completed");
       myDiv.appendChild(myButton);
       this.projectsList.appendChild(myDiv);
     }
   }
 
-  // ========================================================================
+  // Display the Tasks pane
 
   displayTasks(projectId) {
     this.tasksList.innerHTML = "";
@@ -251,14 +255,24 @@ export default class Display {
   makeProjectDiv(project) {
     const myDiv = this.makeElement("div", "tasks__project");
 
-    const myCompleteProjectButton = this.makeElement("button", "tasks__project__complete", "o", () => this.toggleCompleteProject(project.id));
+    const myCompleteProjectButton = this.makeElement(
+      "button",
+      "tasks__project__complete",
+      project.id == 1 ? ":" : "o",
+      () => this.toggleCompleteProject(project.id)
+    );
     myDiv.appendChild(myCompleteProjectButton);
 
     const myEditProjectButton = this.makeElement("button", "tasks__project__edit", project.title, () => this.editProject(project));
     if (project.completed) myEditProjectButton.classList.add("completed");
     myDiv.appendChild(myEditProjectButton);
 
-    const myDeleteProjectButton = this.makeElement("button", "tasks__project__delete", "x", () => this.deleteProject(project.id));
+    const myDeleteProjectButton = this.makeElement(
+      "button",
+      "tasks__project__delete",
+      project.id == 1 ? ":" : "x",
+      () => this.deleteProject(project.id)
+    );
     myDiv.appendChild(myDeleteProjectButton);
 
     return myDiv;
@@ -272,8 +286,10 @@ export default class Display {
   }
 
   editProject(project) {
-    document.getElementById("editProjectTitle").value = project.title;
-    this.editProjectDialog.showModal();
+    if (project.id != 1) {
+      document.getElementById("editProjectTitle").value = project.title;
+      this.editProjectDialog.showModal();
+    }
   }
 
   deleteProject(id) {
@@ -293,6 +309,8 @@ export default class Display {
       this.editTask(task.id)
     });
     if (task.completed) myEditTaskButton.classList.add("completed");
+    console.log(task, task.priority());
+    if (task.priority()) myEditTaskButton.classList.add("priority");
     myEditTaskButton.innerHTML = `<span>${task.title}<span>`;
     if (task.dueDate) myEditTaskButton.innerHTML += `<br>${this.formatDate(new Date(task.dueDate))}`;
     if (task.hasSubTasks()) myEditTaskButton.innerHTML += ` | ${task.subTasksComplete()}/${task.subTasksCount()}`;
@@ -368,12 +386,13 @@ export default class Display {
       const myInput = document.createElement("input");
       myInput.setAttribute("type", "checkbox");
       myInput.setAttribute("name", "tags");
+      myInput.setAttribute("id", `tags-${i}`);
       myInput.setAttribute("value", tags[i].tag);
       if (this.myApp.tasks.hasTag(this.currentTaskId, tags[i].tag)) myInput.checked = true;
       myTag.appendChild(myInput);
 
       const myLabel = document.createElement("label");
-      myLabel.setAttribute("for", "tags");
+      myLabel.setAttribute("for", `tags-${i}`);
       myLabel.innerText = tags[i].tag;
       myTag.appendChild(myLabel);
 
@@ -410,7 +429,7 @@ export default class Display {
       templateSubTasks.appendChild(mySubtask);
     }
 
-    const myNewSubTaskButton = this.makeElement("button", "subtasks__new_task_button", "+", () => { this.subTaskDialog.showModal() });
+    const myNewSubTaskButton = this.makeElement("button", "edit-task-dialog__subtasks__new-task-button", "+", () => { this.subTaskDialog.showModal() });
     myNewSubTaskButton.classList.add("btn");
 
     templateSubTasks.appendChild(myNewSubTaskButton);

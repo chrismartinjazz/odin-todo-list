@@ -48,7 +48,7 @@ export default class Tasks {
   addTag(id, tag) {
     if (this.hasTag(id, tag)) return false;
 
-    if (!this.tagList.find(item => item.tag == "priority")) this.tagList.push({ tag: tag });
+    if (!this.tagList.find(item => item.tag == tag)) this.tagList.push({ tag: tag });
     return this.read(id).tags.push(tag);
   }
 

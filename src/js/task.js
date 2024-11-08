@@ -24,6 +24,10 @@ export default class Task {
     return returnValue;
   }
 
+  priority() {
+    return this.tags.includes("priority");
+  }
+
   createSubTask(title) {
     if (title == "") return false;
 
