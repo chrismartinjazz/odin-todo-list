@@ -235,8 +235,7 @@ export default class Display {
   }
 
   makeProjectDiv(project) {
-    const myDiv = document.createElement("div");
-    myDiv.classList.add("tasks__project");
+    const myDiv = this.makeElement("div", "tasks__project");
 
     const myCompleteProjectButton = this.makeElement("button", "tasks__project__complete", "o", () => this.toggleCompleteProject(project.id));
     myDiv.appendChild(myCompleteProjectButton);
@@ -271,13 +270,14 @@ export default class Display {
   }
 
   makeTaskDiv(task) {
-    const myDiv = document.createElement("div");
-    myDiv.classList.add("tasks__task");
+    const myDiv = this.makeElement("div", "tasks__task");
 
     const myCompleteTaskButton = this.makeElement("button", "tasks__task__complete", "o", () => this.toggleCompleteTask(task.id));
     myDiv.appendChild(myCompleteTaskButton);
 
-    const myEditTaskButton = this.makeElement("button", "tasks__task__edit", "", () => this.editTask(task.id));
+    const myEditTaskButton = this.makeElement("button", "tasks__task__edit", "", () => {
+      this.editTask(task.id)
+    });
     if (task.completed) myEditTaskButton.classList.add("completed");
     myEditTaskButton.innerHTML = `<span>${task.title}<span>`;
     if (task.dueDate) myEditTaskButton.innerHTML += `<br>${this.formatDate(new Date(task.dueDate))}`;
@@ -313,9 +313,21 @@ export default class Display {
     document.getElementById("editTaskDueDate").value = task.dueDate;
     document.getElementById("editTaskDescription").value = task.description;
 
-    // Populate the Project selector with project options. TODO - move to own function
-    const projectSelect = document.getElementById("editTaskProjectId");
-    projectSelect.innerHTML = "";
+    // Populate the Project selector with project options.
+    this.buildProjectSelect(task);
+
+    // Populate the list of tags from the app.
+    this.buildTags();
+
+    // Build the interactive SubTasks section.
+    this.buildSubTasks();
+
+    this.editTaskDialog.showModal();
+  }
+
+  buildProjectSelect() {
+    const templateProjectSelect = document.getElementById("editTaskProjectId");
+    templateProjectSelect.innerHTML = "";
 
     const projectList = this.myApp.projects.projectList;
     for (let i in projectList) {
@@ -323,21 +335,21 @@ export default class Display {
         const myOption = document.createElement("option");
         myOption.setAttribute("value", projectList[i].id);
         myOption.innerText = (projectList[i].title);
-        if (task.projectId == projectList[i].id) {
+        if (this.myApp.tasks.read(this.currentTaskId).projectId == projectList[i].id) {
           myOption.setAttribute("selected", "selected");
         }
-        projectSelect.appendChild(myOption);
+        templateProjectSelect.appendChild(myOption);
       }
     }
+  }
 
-    // Populate the list of tags from the app. TODO - move to own function
+  buildTags() {
     const tags = this.myApp.tasks.tagList;
     const templateTags = document.querySelector(".edit-task-dialog__tags");
     templateTags.innerHTML = "";
 
     for (let i in tags) {
-      const myTag = document.createElement("div");
-      myTag.classList.add("edit-task-dialog__tag");
+      const myTag = this.makeElement("div", "edit-task-dialog__tag");
 
       const myInput = document.createElement("input");
       myInput.setAttribute("type", "checkbox");
@@ -353,63 +365,43 @@ export default class Display {
 
       templateTags.appendChild(myTag);
     }
+  }
 
-    // Build the interactive SubTasks section. TODO - move to own function
+  buildSubTasks() {
     const templateSubTasks = document.querySelector(".edit-task-dialog__subtasks");
     templateSubTasks.innerHTML = "";
 
-    const myDiv = document.createElement("div");
-    myDiv.classList.add("edit-task-dialog__subtask")
-    for (let i in task.subTasks) {
-      const mySubtask = document.createElement("div");
+    const task = this.myApp.tasks.read(this.currentTaskId);
 
-      // TODO - move to own function
-      const myCompleteSubTaskButton = document.createElement("button");
-      myCompleteSubTaskButton.classList.add("edit-task-dialog__subtask__complete")
-      myCompleteSubTaskButton.innerText = "o";
-      myCompleteSubTaskButton.addEventListener("click", () => {
+    for (let i in task.subTasks) {
+      const mySubtask = this.makeElement("div", "edit-task-dialog__subtask");
+
+      const myCompleteSubTaskButton = this.makeElement("button", "edit-task-dialog__subtask__complete", "o", () => {
         task.toggleCompleteSubTask(task.subTasks[i].id);
-        this.editTask(id);
+        this.editTask(this.currentTaskId);
       });
       mySubtask.appendChild(myCompleteSubTaskButton);
 
-      // TODO - move to own function
-      const myEditSubTaskButton = document.createElement("button")
-      myEditSubTaskButton.classList.add("edit-task-dialog__subtask__edit")
+      const myEditSubTaskButton = this.makeElement("button", "edit-task-dialog__subtask__edit", task.subTasks[i].title, () => { this.editSubTask(task.id, task.subTasks[i].id) });
       if (task.subTasks[i].completed) myEditSubTaskButton.classList.add("completed");
-      myEditSubTaskButton.innerText = task.subTasks[i].title;
-      myEditSubTaskButton.addEventListener("click", () => {
-        this.editSubTask(task.id, task.subTasks[i].id);
-      });
       mySubtask.appendChild(myEditSubTaskButton)
 
-      // TODO - move to own function
       if (task.subTasks[i].completed) {
-        const myDeleteSubTaskButton = document.createElement("button");
-        myDeleteSubTaskButton.classList.add("edit-task-dialog__subtask__delete")
-        myDeleteSubTaskButton.innerText = "x";
-        myDeleteSubTaskButton.addEventListener("click", () => {
+        const myDeleteSubTaskButton = this.makeElement("button", "edit-task-dialog__subtask__delete", "x", () => {
           task.deleteSubTask(task.subTasks[i].id);
-          this.editTask(id);
+          this.editTask(this.currentTaskId);
         });
         mySubtask.appendChild(myDeleteSubTaskButton);
       }
-
-      myDiv.appendChild(mySubtask);
+      templateSubTasks.appendChild(mySubtask);
     }
 
-    // TODO - move to own function
-    const myNewSubTaskButton = document.createElement("button");
-    myNewSubTaskButton.classList.add("btn", "subtasks__new_task_button");
-    myNewSubTaskButton.innerText = "+";
-    myNewSubTaskButton.addEventListener("click", () => {
-      this.subTaskDialog.showModal();
-    })
-    myDiv.appendChild(myNewSubTaskButton);
+    const myNewSubTaskButton = this.makeElement("button", "subtasks__new_task_button", "+", () => { this.subTaskDialog.showModal() });
+    myNewSubTaskButton.classList.add("btn");
 
-    templateSubTasks.appendChild(myDiv);
-    this.editTaskDialog.showModal();
+    templateSubTasks.appendChild(myNewSubTaskButton);
   }
+
 
   editSubTask(taskId, subTaskId) {
     this.currentSubTaskId = subTaskId;
