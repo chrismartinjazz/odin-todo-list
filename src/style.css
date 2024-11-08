@@ -1,3 +1,11 @@
+:root {
+  --font: 'Courier New', Courier, monospace;
+  --color-dark: #171111;
+  --color-highlight: #745859;
+  --color-light: #E4DEDA;
+  --color-mid: #79706C;
+}
+
 *,
 *::before,
 *::after {
@@ -6,4 +14,138 @@
 
 .completed {
   text-decoration: line-through;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  font-size: 1.125rem;
+  line-height: 1.1rem;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+button {
+  font-family: var(--font);
+  background-color: inherit;
+  color: var(--color-light);
+  border: none;
+  margin: 0;
+  /* padding: 0; */
+}
+
+button:hover {
+  opacity: 0.75;
+  border: var(--color-light) 1px;
+  background-color: var(--color-highlight);
+}
+
+.btn {
+  background-color: var(--color-highlight);
+  border-radius: 0.3rem;
+  min-width: 2rem;
+}
+
+.tasks__task {
+  display: flex;
+  margin-bottom: 0.4rem;
+}
+
+.tasks__task__complete {
+  width: 2rem;
+}
+
+.tasks__task__edit {
+  font-weight: 300;
+  font-size: 0.8rem;
+  text-align: left;
+  width: 100%;
+}
+
+.tasks__task__edit span {
+  font-weight: 800;
+  font-size: 1rem;
+
+}
+
+.tasks__task__delete {
+  margin-left: auto;
+}
+
+/* Dialog Styling */
+
+::backdrop {
+  opacity: 1;
+}
+
+dialog {
+  width: 80%;
+  max-width: 800px;
+  border: none;
+  background-color: var(--color-dark);
+  color: var(--color-light);
+  border-radius: 0.4em;
+
+}
+
+fieldset {
+  border: none;
+  padding: 0 0 1em 0;
+}
+
+.form {
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.project-dialog__item label,
+.task-dialog__item label,
+.subtask-dialog__item label,
+.edit-project-dialog__item label,
+.edit-task-dialog__item label,
+.edit-subtask-dialog__item label,
+.edit-task-dialog__tag {
+  margin-bottom: 0.5rem;
+}
+
+.project-dialog__item input,
+.task-dialog__item input,
+.subtask-dialog__item input,
+.edit-project-dialog__item input,
+.edit-task-dialog__item input,
+.edit-task-dialog__item select,
+.edit-subtask-dialog__item input {
+  font-family: var(--font);
+  width: 100%;
+  border: 1px solid var(--color-mid);
+  border-radius: 0.4em;
+  height: initial;
+  padding: 0.5em;
+  margin: 0.3em 0 1em 0;
+}
+
+.project-dialog__buttons,
+.task-dialog__buttons,
+.subtask-dialog__buttons,
+.edit-project-dialog__buttons,
+.edit-task-dialog__buttons,
+.edit-subtask-dialog__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.edit-task-dialog__tag {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
