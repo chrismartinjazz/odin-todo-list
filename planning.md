@@ -63,10 +63,11 @@ I have already created something inspired by Todoist, so I will look instead at 
   - DONE edit
   - DONE delete
 
-- **Refactor**
+- **Refactor** - Partially complete. Come back later to refactor display.js into smaller classes with EventBus communication.
 - **Style page**
   - **priority tag affects color**
 - **Build about page**
+  - **Reset all data?**
   - **Download your data?**
   - **Restore your data?**
 

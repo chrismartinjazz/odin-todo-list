@@ -1,4 +1,5 @@
 import { isToday, format, isTomorrow, isYesterday } from "date-fns";
+import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
 
 // Initializes dialogs x 6.
 // Displays the Projects list.
@@ -10,6 +11,9 @@ import { isToday, format, isTomorrow, isYesterday } from "date-fns";
 export default class Display {
   constructor(myApp) {
     this.myApp = myApp;
+
+    // Set up the Reset button
+    this.initializeResetButton();
 
     // Select the project and task regions of the template.
     this.projectsList = document.querySelector(".projects__list");
@@ -50,6 +54,16 @@ export default class Display {
     this.currentProjectId = 1;
     this.currentTaskId = null;
     this.currentSubTaskId = null;
+  }
+
+  initializeResetButton() {
+    const templateResetButton = document.querySelector(".reset");
+    templateResetButton.addEventListener("click", () => {
+      deleteMyApp();
+      this.myApp = getMyApp();
+      this.displayProjects();
+      this.displayTasks(1);
+    })
   }
 
   // Helper functions for dialog initialization.
@@ -101,7 +115,7 @@ export default class Display {
       const title = document.getElementById("newTaskTitle").value;
       const dueDate = document.getElementById("newTaskDueDate").value;
       const newTask = this.myApp.tasks.create(title, this.currentProjectId);
-      newTask.update({ dueDate: dueDate });
+      if (newTask) newTask.update({ dueDate: dueDate });
       this.taskDialog.close();
       this.taskForm.reset();
       this.displayTasks(this.currentProjectId);

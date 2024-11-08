@@ -4,7 +4,7 @@ import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
 import Display from "./display.js";
 
 // TESTING - reset localStorage on refresh
-deleteMyApp();
+// deleteMyApp();
 // TESTING
 
 let myApp;
@@ -17,7 +17,7 @@ if (!localStorage.getItem("myApp")) {
 }
 
 // TESTING - seed myApp
-seedMyApp();
+// seedMyApp();
 // TESTING
 
 let display = new Display(myApp);
