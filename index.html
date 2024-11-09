@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo list</title>
+  <link rel="stylesheet" href="609a232ab53e413e38d2.css">
+<script defer src="main.js"></script></head>
+
+<body>
+  <div class="container">
+    <nav class="nav">
+      <p>todo-list</p>
+      <button type="button" class="nav__reset">reset</button>
+    </nav>
+    <div class="content row">
+
+      <div class="col col--narrow">
+        <div class="projects__list">
+          <!-- Populated by displayProjects -->
+        </div>
+        <button type="button" class="btn projects__new-project-button">+</button>
+      </div>
+
+      <div class="col col--wide">
+        <div class="tasks__list">
+          <!-- Populated by displayTasks -->
+        </div>
+        <button class="btn tasks__new-task-button">+</button>
+      </div>
+
+      <!-- Dialogs from here to end of template -->
+      <dialog class="project-dialog">
+        <form action="#" method="get" class="project-dialog__form">
+          <fieldset>
+            <div class="project-dialog__item">
+              <label for="newProjectTitle">Project Title:</label>
+              <input autofocus type="text" id="newProjectTitle" name="title">
+            </div>
+          </fieldset>
+          <div class="project-dialog__buttons">
+            <button type="submit" class="btn submit project-dialog__submit">Add</button>
+            <button type="reset" class="btn reset project-dialog__close">Close</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="task-dialog">
+        <form action="#" class="task-dialog__form" method="get">
+          <fieldset>
+            <div class="task-dialog__item">
+              <label for="newTaskTitle">Task Title:</label>
+              <input autofocus type="text" id="newTaskTitle" name="title">
+            </div>
+            <div class="task-dialog__item">
+              <label for="newTaskDueDate">Due Date:</label>
+              <input type="date" id="newTaskDueDate" name="date">
+            </div>
+          </fieldset>
+          <div class="task-dialog__buttons">
+            <button type="submit" class="btn submit task-dialog__submit" type="submit">Add</button>
+            <button type="reset" class="btn reset task-dialog__close">close</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="subtask-dialog">
+        <form action="#" class="subtask-dialog__form" method="get">
+          <fieldset>
+            <div class="subtask-dialog__item">
+              <label for="newSubTaskTitle">Subtask Title:</label>
+              <input autofocus type="text" id="newSubTaskTitle" name="title">
+            </div>
+          </fieldset>
+          <div class="subtask-dialog__buttons">
+            <button type="submit" class="btn submit subtask-dialog__submit" type="submit">Add</button>
+            <button type="reset" class="btn reset subtask-dialog__close">Close</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="edit-project-dialog">
+        <form action="#" class="edit-project-dialog__form" method="get">
+          <fieldset>
+            <div class="edit-project-dialog__item">
+              <label for="editProjectTitle">Project Title:</label>
+              <input autofocus type="text" id="editProjectTitle" name="title">
+            </div>
+          </fieldset>
+          <div class="edit-project-dialog__buttons">
+            <button type="submit" class="btn submit edit-project-dialog__submit" type="submit">Edit</button>
+            <button type="reset" class="btn reset edit-project-dialog__close">Close</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="edit-task-dialog">
+        <form action="#" class="edit-task-dialog__form" method="get">
+          <fieldset>
+            <div class="edit-task-dialog__item">
+              <label for="editTaskTitle">Task Title:</label>
+              <input autofocus type="text" id="editTaskTitle" name="title">
+            </div>
+            <div class="edit-task-dialog__item">
+              <label for="editTaskDescription">Description:</label>
+              <input type="text" id="editTaskDescription" name="description">
+            </div>
+            <div class="edit-task-dialog__item">
+              <label for="editTaskDueDate">Due Date:</label>
+              <input type="date" id="editTaskDueDate" name="date">
+            </div>
+            <div class="edit-task-dialog__item">
+              <label for="editTaskProjectId">Project:</label>
+              <select name="editTaskProjectId" id="editTaskProjectId">
+                <!-- Populated by displayTasks -->
+              </select>
+            </div>
+
+            <!-- Keep this hidden button prior to any focusable buttons created by displayTasks -->
+            <button type="submit" style="display: none;"></button>
+
+            <div class="edit-task-dialog__tags">
+              <!-- Populated by displayTasks -->
+            </div>
+            <div class="edit-task-dialog__subtasks">
+              <!-- Populated by displayTasks -->
+            </div>
+
+          </fieldset>
+          <div class="edit-task-dialog__buttons">
+            <button type="submit" class="btn submit edit-task-dialog__submit" type="submit">Edit</button>
+            <button type="reset" class="btn reset edit-task-dialog__close">Close</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog class="edit-subtask-dialog">
+        <form action="#" class="edit-subtask-dialog__form" method="get">
+          <fieldset>
+            <div class="edit-subtask-dialog__item">
+              <label for="editSubTaskTitle">Subtask Title:</label>
+              <input autofocus type="text" id="editSubTaskTitle" name="title">
+            </div>
+            <div class="edit-subtask-dialog__subtasks">
+              <!-- Populated by displayTasks -->
+            </div>
+          </fieldset>
+          <div class="edit-subtask-dialog__buttons">
+            <button type="submit" class="btn submit edit-subtask-dialog__submit" type="submit">Edit</button>
+            <button type="reset" class="btn reset edit-subtask-dialog__close">Close</button>
+          </div>
+        </form>
+      </dialog>
+
+    </div>
+  </div>
+</body>
+
+</html>
