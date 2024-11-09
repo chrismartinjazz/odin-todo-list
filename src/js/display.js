@@ -1,5 +1,6 @@
 import { isToday, format, isTomorrow, isYesterday } from "date-fns";
-import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
+import { getMyApp, deleteMyApp } from "./storage.js";
+import { initializeOpenDialog, initializeCloseDialog, makeElement } from "./displayhelper.js";
 
 // Initializes dialogs x 6.
 // Displays the Projects list.
@@ -66,37 +67,12 @@ export default class Display {
     })
   }
 
-  // Helper functions
-  initializeOpenDialog(dialog, openButtonSelector) {
-    const openButton = document.querySelector(openButtonSelector);
-    openButton.addEventListener("click", () => {
-      dialog.showModal();
-    });
-  }
-
-  initializeCloseDialog(dialog, closeButtonSelector) {
-    const closeButton = document.querySelector(closeButtonSelector);
-    closeButton.addEventListener("click", () => {
-      dialog.close();
-    });
-  }
-
-  makeElement(htmlTag = "div", cssClass, text, onClickFunction) {
-    const myElement = document.createElement(htmlTag);
-    if (cssClass) myElement.classList.add(cssClass);
-    if (text) myElement.innerText = text;
-    if (onClickFunction) {
-      myElement.addEventListener("click", onClickFunction);
-    };
-    return myElement;
-  }
-
   // Dialog initialization
 
   initializeProjectDialog() {
     // Initialize open and close buttons for the dialog in the template and the form.
-    this.initializeOpenDialog(this.projectDialog, ".projects__new-project-button");
-    this.initializeCloseDialog(this.projectDialog, ".project-dialog__close");
+    initializeOpenDialog(this.projectDialog, ".projects__new-project-button");
+    initializeCloseDialog(this.projectDialog, ".project-dialog__close");
     this.initializeProjectSubmitForm();
   }
 
@@ -115,8 +91,8 @@ export default class Display {
   }
 
   initializeTaskDialog() {
-    this.initializeOpenDialog(this.taskDialog, ".tasks__new-task-button");
-    this.initializeCloseDialog(this.taskDialog, ".task-dialog__close");
+    initializeOpenDialog(this.taskDialog, ".tasks__new-task-button");
+    initializeCloseDialog(this.taskDialog, ".task-dialog__close");
     this.initializeTaskSubmitForm();
   }
 
@@ -135,7 +111,11 @@ export default class Display {
   }
 
   initializeSubTaskDialog() {
-    this.initializeCloseDialog(this.subTaskDialog, ".subtask-dialog__close");
+    const closeButton = document.querySelector(".subtask-dialog__close");
+    closeButton.addEventListener("click", () => {
+      this.subTaskDialog.close();
+      this.editTask(this.currentTaskId);
+    });
     this.initializeSubTaskSubmitForm();
   }
 
@@ -152,7 +132,7 @@ export default class Display {
   }
 
   initializeEditProjectDialog() {
-    this.initializeCloseDialog(this.editProjectDialog, ".edit-project-dialog__close");
+    initializeCloseDialog(this.editProjectDialog, ".edit-project-dialog__close");
     this.initializeEditProjectSubmitForm();
   }
 
@@ -170,7 +150,7 @@ export default class Display {
   }
 
   initializeEditTaskDialog() {
-    this.initializeCloseDialog(this.editTaskDialog, ".edit-task-dialog__close");
+    initializeCloseDialog(this.editTaskDialog, ".edit-task-dialog__close");
     this.initializeEditTaskSubmitForm();
   }
 
@@ -201,7 +181,11 @@ export default class Display {
   }
 
   initializeEditSubTaskDialog() {
-    this.initializeCloseDialog(this.editSubTaskDialog, ".edit-subtask-dialog__close");
+    const closeButton = document.querySelector(".edit-subtask-dialog__close");
+    closeButton.addEventListener("click", () => {
+      this.editSubTaskDialog.close();
+      this.editTask(this.currentTaskId);
+    });
     this.initializeEditSubTaskSubmitForm();
   }
 
@@ -223,8 +207,8 @@ export default class Display {
     this.projectsList.innerHTML = "";
     const projects = this.myApp.projects.projectList;
     for (let i in projects) {
-      const myDiv = this.makeElement("div", "projects__project");
-      const myButton = this.makeElement("button", "projects__project__open", projects[i].title, () => this.displayTasks(projects[i].id));
+      const myDiv = makeElement("div", "projects__project");
+      const myButton = makeElement("button", "projects__project__open", projects[i].title, () => this.displayTasks(projects[i].id));
       if (projects[i].completed) myButton.classList.add("completed");
       myDiv.appendChild(myButton);
       this.projectsList.appendChild(myDiv);
@@ -253,21 +237,33 @@ export default class Display {
   }
 
   makeProjectDiv(project) {
-    const myDiv = this.makeElement("div", "tasks__project");
+    const myDiv = makeElement("div", "tasks__project");
 
-    const myCompleteProjectButton = this.makeElement(
+    let completeProjectButtonText;
+
+    if (project.id == 1) {
+      completeProjectButtonText = ":"
+    } else if (project.completed) {
+      completeProjectButtonText = ""
+    } else completeProjectButtonText = "o";
+
+    const myCompleteProjectButton = makeElement(
       "button",
       "tasks__project__complete",
-      project.id == 1 ? ":" : "o",
+      completeProjectButtonText,
       () => this.toggleCompleteProject(project.id)
     );
+    if (project.completed) {
+      myCompleteProjectButton.innerText = "";
+      myCompleteProjectButton.classList.add("no-hover");
+    }
     myDiv.appendChild(myCompleteProjectButton);
 
-    const myEditProjectButton = this.makeElement("button", "tasks__project__edit", project.title, () => this.editProject(project));
+    const myEditProjectButton = makeElement("button", "tasks__project__edit", project.title, () => this.editProject(project));
     if (project.completed) myEditProjectButton.classList.add("completed");
     myDiv.appendChild(myEditProjectButton);
 
-    const myDeleteProjectButton = this.makeElement(
+    const myDeleteProjectButton = makeElement(
       "button",
       "tasks__project__delete",
       project.id == 1 ? ":" : "x",
@@ -300,16 +296,15 @@ export default class Display {
   }
 
   makeTaskDiv(task) {
-    const myDiv = this.makeElement("div", "tasks__task");
+    const myDiv = makeElement("div", "tasks__task");
 
-    const myCompleteTaskButton = this.makeElement("button", "tasks__task__complete", "o", () => this.toggleCompleteTask(task.id));
+    const myCompleteTaskButton = makeElement("button", "tasks__task__complete", "o", () => this.toggleCompleteTask(task.id));
     myDiv.appendChild(myCompleteTaskButton);
 
-    const myEditTaskButton = this.makeElement("button", "tasks__task__edit", "", () => {
+    const myEditTaskButton = makeElement("button", "tasks__task__edit", "", () => {
       this.editTask(task.id)
     });
     if (task.completed) myEditTaskButton.classList.add("completed");
-    console.log(task, task.priority());
     if (task.priority()) myEditTaskButton.classList.add("priority");
     myEditTaskButton.innerHTML = `<span>${task.title}<span>`;
     if (task.dueDate) myEditTaskButton.innerHTML += `<br>${this.formatDate(new Date(task.dueDate))}`;
@@ -317,7 +312,7 @@ export default class Display {
     myDiv.appendChild(myEditTaskButton);
 
     if (task.completed) {
-      const myDeleteTaskButton = this.makeElement("button", "tasks__task__delete", "x", () => this.deleteTask(task.id));
+      const myDeleteTaskButton = makeElement("button", "tasks__task__delete", "x", () => this.deleteTask(task.id));
       myDiv.appendChild(myDeleteTaskButton);
     }
 
@@ -381,7 +376,7 @@ export default class Display {
     templateTags.innerHTML = "";
 
     for (let i in tags) {
-      const myTag = this.makeElement("div", "edit-task-dialog__tag");
+      const myTag = makeElement("div", "edit-task-dialog__tag");
 
       const myInput = document.createElement("input");
       myInput.setAttribute("type", "checkbox");
@@ -407,20 +402,20 @@ export default class Display {
     const task = this.myApp.tasks.read(this.currentTaskId);
 
     for (let i in task.subTasks) {
-      const mySubtask = this.makeElement("div", "edit-task-dialog__subtask");
+      const mySubtask = makeElement("div", "edit-task-dialog__subtask");
 
-      const myCompleteSubTaskButton = this.makeElement("button", "edit-task-dialog__subtask__complete", "o", () => {
+      const myCompleteSubTaskButton = makeElement("button", "edit-task-dialog__subtask__complete", "o", () => {
         task.toggleCompleteSubTask(task.subTasks[i].id);
         this.editTask(this.currentTaskId);
       });
       mySubtask.appendChild(myCompleteSubTaskButton);
 
-      const myEditSubTaskButton = this.makeElement("button", "edit-task-dialog__subtask__edit", task.subTasks[i].title, () => { this.editSubTask(task.id, task.subTasks[i].id) });
+      const myEditSubTaskButton = makeElement("button", "edit-task-dialog__subtask__edit", task.subTasks[i].title, () => { this.editSubTask(task.id, task.subTasks[i].id) });
       if (task.subTasks[i].completed) myEditSubTaskButton.classList.add("completed");
       mySubtask.appendChild(myEditSubTaskButton)
 
       if (task.subTasks[i].completed) {
-        const myDeleteSubTaskButton = this.makeElement("button", "edit-task-dialog__subtask__delete", "x", () => {
+        const myDeleteSubTaskButton = makeElement("button", "edit-task-dialog__subtask__delete", "x", () => {
           task.deleteSubTask(task.subTasks[i].id);
           this.editTask(this.currentTaskId);
         });
@@ -429,7 +424,7 @@ export default class Display {
       templateSubTasks.appendChild(mySubtask);
     }
 
-    const myNewSubTaskButton = this.makeElement("button", "edit-task-dialog__subtasks__new-task-button", "+", () => { this.subTaskDialog.showModal() });
+    const myNewSubTaskButton = makeElement("button", "edit-task-dialog__subtasks__new-task-button", "+", () => { this.subTaskDialog.showModal() });
     myNewSubTaskButton.classList.add("btn");
 
     templateSubTasks.appendChild(myNewSubTaskButton);

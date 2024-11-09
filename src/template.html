@@ -14,19 +14,21 @@
       <p>todo-list</p>
       <button type="button" class="nav__reset">reset</button>
     </nav>
-    <div class="content">
+    <div class="content row">
 
-      <!-- <h2 class="projects__heading">Projects</h2> -->
-      <div class="projects__list">
-        <!-- Populated by displayProjects -->
+      <div class="col col--narrow">
+        <div class="projects__list">
+          <!-- Populated by displayProjects -->
+        </div>
+        <button type="button" class="btn projects__new-project-button">+</button>
       </div>
-      <button type="button" class="btn projects__new-project-button">+</button>
 
-      <!-- <h2 class="tasks__heading">Tasks</h2> -->
-      <div class="tasks__list">
-        <!-- Populated by displayTasks -->
+      <div class="col col--wide">
+        <div class="tasks__list">
+          <!-- Populated by displayTasks -->
+        </div>
+        <button class="btn tasks__new-task-button">+</button>
       </div>
-      <button class="btn tasks__new-task-button">+</button>
 
       <!-- Dialogs from here to end of template -->
       <dialog class="project-dialog">

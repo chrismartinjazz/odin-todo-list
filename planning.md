@@ -25,7 +25,7 @@
 UI is able to:
 
 - DONE View all projects (Home?)
-- View all todos in each project
+- DONE View all todos in each project
   - DONE title
   - DONE duedate
   - DONE subtask status (e.g. 1/4 complete)
@@ -63,13 +63,10 @@ I have already created something inspired by Todoist, so I will look instead at 
   - DONE edit
   - DONE delete
 
-- **Refactor** - Partially complete. Come back later to refactor display.js into smaller classes with EventBus communication.
-- **Style page**
-  - **priority tag affects color**
-- **Build about page**
-  - **Reset all data?**
-  - **Download your data?**
-  - **Restore your data?**
+- DONE Refactor - Partially complete. TODO refactor display.js into smaller classes with EventBus communication.
+- DONE Style page
+  - DONE priority tag affects color
+  - DONE Reset all data
 
 OK going over this in some more detail.
 
@@ -114,7 +111,6 @@ Here we have a title, a list of tasks (empty for new project) and down the botto
 +-----------------------------------+
 ```
 
-**The tasks are sorted in order of due date, most recent at the top.**
 The second line of the task shows the due date if it has one, and the status of subtasks (completed / count).
 If click Add Task, opens the modal form to add / edit a task.
 If click the circle, the task is marked complete, crossed out. An X button appears next to it. Click that and it is deleted.
@@ -253,4 +249,5 @@ initializeCloseDialog()
 
 **editTask()**
   currentTaskId
-  
+  ...
+  ...

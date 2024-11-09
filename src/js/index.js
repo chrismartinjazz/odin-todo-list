@@ -1,6 +1,6 @@
 import "../style.css";
 import Application from "./application.js";
-import { storeMyApp, getMyApp, deleteMyApp } from "./storage.js";
+import { storeMyApp, getMyApp } from "./storage.js";
 import Display from "./display.js";
 
 // TESTING - reset localStorage on refresh
@@ -34,7 +34,7 @@ function seedMyApp() {
   myApp.tasks.read(3).createSubTask("add duedates");
   myApp.tasks.read(3).update({ dueDate: "2024-11-06" });
   myApp.tasks.addTag(3, "priority");
-  myApp.tasks.create("make it good");
+  myApp.tasks.create("publish the app");
 }
 // TESTING
 
@@ -103,12 +103,12 @@ console.log(myApp.deleteProject(1), ": false - cannot delete inbox");
 myApp.deleteProject(2);
 console.log(myApp.projects.projectTitles(), ": inbox");
 // console.table(myApp);
-
-
-// Test the conversion function
-// Convert myApp to a JSON string and parse back into an object.
-// const string = JSON.stringify(myApp);
-// myApp = getMyApp(string);
-// console.log(myApp);
 */
 
+/*
+// Test the conversion function
+// Convert myApp to a JSON string and parse back into an object.
+const string = JSON.stringify(myApp);
+myApp = getMyApp(string);
+console.log(myApp);
+*/
